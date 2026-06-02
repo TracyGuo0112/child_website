@@ -27,3 +27,4 @@ components/<name>/
 ## 现有组件
 
 - **blobs** — 虹彩果冻 3D 装饰团子(React Three Fiber)。详见 [`blobs/README.md`](./blobs/README.md)。
+- **palette** — 站点配色系统(暖纸 + 脏系马卡龙 + 暖墨,纯 token)。详见 [`palette/README.md`](./palette/README.md)。
