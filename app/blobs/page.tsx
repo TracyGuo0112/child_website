@@ -1,12 +1,11 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import type { ShapeName } from "../components/blobs/shapes";
-import type { ThemeName } from "../components/blobs/palettes";
-import type { BlobSpec } from "../components/blobs/BlobScene";
+import type { ShapeName, ThemeName, BlobSpec } from "@/components/blobs";
 
-// ssr:false keeps WebGL off the server render.
-const BlobScene = dynamic(() => import("../components/blobs/BlobScene"), {
+// ssr:false keeps WebGL off the server render. Import the entry module directly
+// (not the barrel) so only BlobScene's chunk loads on demand.
+const BlobScene = dynamic(() => import("@/components/blobs/BlobScene"), {
   ssr: false,
 });
 

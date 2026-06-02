@@ -18,7 +18,7 @@
 ```tsx
 import dynamic from "next/dynamic";
 // WebGL 不能 SSR
-const BlobScene = dynamic(() => import("@/app/components/blobs/BlobScene"), { ssr: false });
+const BlobScene = dynamic(() => import("@/components/blobs/BlobScene"), { ssr: false });
 
 <div style={{ width: 400, height: 400 }}>
   <BlobScene
