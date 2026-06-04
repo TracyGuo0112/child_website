@@ -19,16 +19,16 @@ export function NavBar() {
   const pathname = usePathname();
   return (
     // Outer sticky band provides top offset + side gutters so the pill floats in
-    // whitespace. The pill reads as glass from light (a top sheen gradient + inner
-    // highlight/shade), not from background bleed — translucent cool-white over
-    // our warm bg muddied to grey, so it sits on warm paper instead.
+    // whitespace. The pill reads as crystal glass: a low-opacity white tint over a
+    // strong backdrop blur (the sky bleeds through, refracted), a translucent white
+    // rim, and a top sheen — clarity over a frosted/solid fill.
     <div className="sticky top-0 z-50 px-6 pt-4 sm:px-10">
       <nav
-        className="mx-auto flex max-w-7xl items-center gap-8 rounded-full px-7 py-3 backdrop-blur-xl sm:px-9"
+        className="mx-auto flex max-w-7xl items-center gap-8 rounded-full px-7 py-3 backdrop-blur-md sm:px-9"
         style={{
-          background: `linear-gradient(180deg, ${surface.raised}d9 0%, ${surface.paper}b3 45%, ${surface.paper}cc 100%)`,
-          border: `1px solid ${surface.raised}`,
-          boxShadow: `inset 0 1px 1px ${surface.raised}, inset 0 -1px 2px ${ink[900]}0a, 0 10px 28px -12px ${ink[900]}26`,
+          background: `linear-gradient(180deg, ${surface.raised}24 0%, ${surface.raised}12 50%, ${surface.raised}1f 100%)`,
+          border: `0.5px solid ${surface.raised}4d`,
+          boxShadow: `inset 0 1px 1px ${surface.raised}66, inset 0 -1px 2px ${ink[900]}0a, 0 10px 28px -12px ${ink[900]}1f`,
         }}
       >
         <Wordmark />
