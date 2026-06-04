@@ -13,6 +13,14 @@ const geistMono = localFont({
   variable: "--font-geist-mono",
   weight: "100 900",
 });
+// Source Han Serif (Noto Serif SC), subset to the hero headline glyphs only —
+// a 4KB self-hosted face, no runtime CDN. Exposed as a CSS var for the headline.
+const notoSerifSC = localFont({
+  src: "./fonts/NotoSerifSC-headline.woff2",
+  variable: "--font-noto-serif-sc",
+  weight: "700",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "喜马拉雅儿童 SDK · AI 玩具接入方案",
@@ -28,7 +36,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${notoSerifSC.variable} antialiased`}
       >
         {/* Fixed sky backdrop underlays every route (fixed + -z-10). NavBar/Footer
             live here too — direct children of <body>, never inside a page's
