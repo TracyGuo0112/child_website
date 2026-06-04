@@ -92,8 +92,8 @@ export function HeroSky() {
         />
       </div>
 
-      {/* copy */}
-      <div className="relative z-10 flex min-h-screen flex-col justify-center pl-[8%] pr-6">
+      {/* copy — nudged up ~5 line-units from dead-centre for a higher-anchored hero */}
+      <div className="relative z-10 flex min-h-screen flex-col justify-center pl-[8%] pr-6 -translate-y-20">
         <h1
           className="font-bold leading-[1.25] text-4xl sm:text-5xl xl:text-6xl"
           style={{ color: ink[900], fontFamily: "var(--font-noto-serif-sc)", letterSpacing: "0.02em" }}
