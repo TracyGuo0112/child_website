@@ -39,8 +39,9 @@ function RainbowRibbons() {
         <linearGradient id="rb-bl" x1="0%" y1="100%" x2="100%" y2="0%">
           <stop offset="0%" stopColor="#8fe0c0" />
           <stop offset="16%" stopColor="#8fd4ff" />
-          <stop offset="34%" stopColor="#9f8cff" />
-          <stop offset="52%" stopColor="#c77dff" />
+          {/* purple band toned 40% down per request — sky shows through more here */}
+          <stop offset="34%" stopColor="#9f8cff" stopOpacity="0.6" />
+          <stop offset="52%" stopColor="#c77dff" stopOpacity="0.6" />
           <stop offset="68%" stopColor="#ff8ac0" />
           <stop offset="84%" stopColor="#ffb07a" />
           <stop offset="100%" stopColor="#ffd76b" />

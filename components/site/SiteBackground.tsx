@@ -32,11 +32,16 @@ export function SiteBackground() {
       >
         <filter id="sky-clouds" x="0" y="0" width="100%" height="100%">
           <feTurbulence type="fractalNoise" baseFrequency="0.010 0.013" numOctaves="5" seed="7" stitchTiles="stitch" result="n" />
-          {/* paint noise white; steep alpha → bright puffy cores with hazy gaps */}
-          <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 -1.5 1.18" />
+          {/* paint noise white; steeper alpha slope sculpts the cloud — solid white
+              cores, cleaner blue gaps → ~20% more cloud/sky contrast and visible shape */}
+          <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 -2.4 1.5" />
         </filter>
         <rect width="100%" height="100%" filter="url(#sky-clouds)" />
       </svg>
+
+      {/* uniform white veil — softens the whole sky + clouds by ~20% for an airier,
+          paler backdrop without retuning every gradient */}
+      <div className="absolute inset-0" style={{ background: "#FFFFFF", opacity: 0.4 }} />
     </div>
   );
 }
