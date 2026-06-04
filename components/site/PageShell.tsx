@@ -20,8 +20,9 @@ export function PageShell({
   return (
     <main className="relative min-h-screen overflow-hidden">
       <ShellBlobs />
-      {/* pt-32 clears the floating pill nav (top-0 + pt-4 band + pill height). */}
-      <div className="relative z-10 mx-auto max-w-5xl px-6 pb-24 pt-32 sm:px-10">
+      {/* The sticky nav already occupies ~84px of flow above us, so this only needs
+          to be breathing room below it — not a full fixed-nav offset. */}
+      <div className="relative z-10 mx-auto max-w-5xl px-6 pb-24 pt-16 sm:px-10">
         <header className="mb-12">
           {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
           <h1 className="mt-4 text-3xl font-semibold tracking-tight lg:text-4xl" style={{ color: ink[900] }}>
