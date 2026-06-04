@@ -85,13 +85,14 @@ export function HeroSky() {
           className="absolute inset-0"
           blobs={[{
             shape: "star",
-            theme: "candy",
-            scale: 1.1,
+            theme: "candyHarmony",
+            scale: 0.88,
             resolution: 72,
             material: { roughness: 0.18, transmission: 0.24, iridescence: 0.55, iridescenceIOR: 1.35, thickness: 0.65, clearcoat: 0.7, clearcoatRoughness: 0.25, envMapIntensity: 1.2 },
             // slow self-spin + gentle radial throb: a turning, twinkling candy star.
             // The core sits at field center, so it stays put while the arms orbit/pulse.
-            motion: { spin: 0.25, breathe: 0.09, bob: 0.02, wobble: 0, drift: 0.02 },
+            // spin halved (0.25 -> 0.14 rad/s, ~45s/turn) for a calmer, more languid rotation.
+            motion: { spin: 0.14, breathe: 0.09, bob: 0.02, wobble: 0, drift: 0.02 },
           }]}
         />
       </div>

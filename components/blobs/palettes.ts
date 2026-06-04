@@ -11,6 +11,7 @@ export type ThemeName =
   | "sunset"
   | "ocean"
   | "candy"
+  | "candyHarmony"
   | "aurora"
   | "bubblegum";
 
@@ -27,6 +28,10 @@ export const THEMES: Record<ThemeName, string[]> = {
   ocean: ["#7c5cff", "#5c7bff", "#4aa3ff", "#37c9e0", "#3fe0c4", "#9be8d8"],
   // bright candy rainbow, full spectrum
   candy: ["#ff4fa0", "#ff8a3d", "#ffd24d", "#7fe0a0", "#4ac9e0", "#b070f0"],
+  // harmonized candy: same rainbow order as `candy`, but one unified saturation/
+  // value so neighbouring swatches transition smoothly — keeps the full spectrum
+  // while letting the hero star read as cohesive against the rainbow ribbon bg.
+  candyHarmony: ["#ff5fa8", "#ff9a5c", "#ffd95c", "#82e0b0", "#5ccfe6", "#b87cf0"],
   // aurora: green -> teal -> violet -> magenta, luminous
   aurora: ["#5fe39a", "#3fd9c4", "#5cb0ff", "#9b7bff", "#d96bf0", "#ff6bc4"],
   // soft pinks and lilacs
