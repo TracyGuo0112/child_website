@@ -28,3 +28,5 @@ components/<name>/
 
 - **blobs** — 虹彩果冻 3D 装饰团子(React Three Fiber)。详见 [`blobs/README.md`](./blobs/README.md)。
 - **palette** — 站点配色系统(暖纸 + 脏系马卡龙 + 暖墨,纯 token)。详见 [`palette/README.md`](./palette/README.md)。
+- **hero-blob** — 团子的薄客户端封装(可见性门控 + res44),让 server 页面无需变 client 就能放 3D 团子。详见 [`hero-blob/README.md`](./hero-blob/README.md)。
+- **site** — 站点骨架件(导航栏 / 页脚 / 内容页外壳 / 原子组件 / 导航数据)。详见 [`site/README.md`](./site/README.md)。

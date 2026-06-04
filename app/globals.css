@@ -2,16 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Fixed sky theme — no dark mode. The site backdrop is SiteBackground (a fixed
+   sky→cream wash painted in the layout); body just carries the sky base color as
+   a fallback so nothing flashes cream before it paints. Text stays our warm ink.
+   Don't flip on prefers-color-scheme (the Next default did, which painted the
+   body near-black in dark mode and bled through as black gutters). */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #C8E4FC; /* pastels.sky.tint — matches SiteBackground's top */
+  --foreground: #362C24; /* ink.900 */
 }
 
 body {
