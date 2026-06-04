@@ -26,6 +26,8 @@ type MotionConfig = {
   bob?: number; // vertical float (world units)
   wobble?: number; // in-plane sway (radians)
   drift?: number; // per-lobe organic jitter (world units)
+  spin?: number; // continuous in-plane rotation (radians/sec) — turns about the
+  // field center, so a centred core stays put while outer lobes orbit it
 };
 
 const DEFAULT_MOTION: Required<MotionConfig> = {
@@ -33,6 +35,7 @@ const DEFAULT_MOTION: Required<MotionConfig> = {
   bob: 0.05,
   wobble: 0.12,
   drift: 0.03,
+  spin: 0,
 };
 
 export type GummyBlobProps = {
@@ -147,9 +150,10 @@ export default function GummyBlob({
     if (!mc) return;
     const t = state.clock.elapsedTime * speed;
     const bob = m ? Math.sin(t * 0.9) * m.bob : 0;
-    const wob = m ? Math.sin(t * 0.6) * m.wobble : 0;
-    const cos = Math.cos(wob);
-    const sin = Math.sin(wob);
+    // sway (oscillating) + spin (continuous) share one rotation about the center
+    const ang = m ? Math.sin(t * 0.6) * m.wobble + t * m.spin : 0;
+    const cos = Math.cos(ang);
+    const sin = Math.sin(ang);
     // Whole-body breathing as a spread pulse (cannot scale the field directly).
     const breathe = m ? spread * (1 + Math.sin(t * 0.75) * m.breathe) : spread;
 

@@ -80,12 +80,14 @@ export function HeroSky() {
           cameraZ={2.3}
           className="absolute inset-0"
           blobs={[{
-            shape: "cloud",
+            shape: "star",
             theme: "candy",
             scale: 1.1,
             resolution: 72,
             material: { roughness: 0.18, transmission: 0.24, iridescence: 0.55, iridescenceIOR: 1.35, thickness: 0.65, clearcoat: 0.7, clearcoatRoughness: 0.25, envMapIntensity: 1.2 },
-            motion: {},
+            // slow self-spin + gentle radial throb: a turning, twinkling candy star.
+            // The core sits at field center, so it stays put while the arms orbit/pulse.
+            motion: { spin: 0.25, breathe: 0.09, bob: 0.02, wobble: 0, drift: 0.02 },
           }]}
         />
       </div>
@@ -107,14 +109,10 @@ export function HeroSky() {
 
         <div className="mt-9 flex items-center gap-3">
           <Link href="/integration">
-            <SolidBtn>
-              <span className="inline-flex items-center">查看接入说明<span className="ml-5">→</span></span>
-            </SolidBtn>
+            <SolidBtn>查看接入说明</SolidBtn>
           </Link>
           <Link href="/process">
-            <SolidBtn bg="#FFFFFFcc" fg={ink[900]}>
-              <span className="inline-flex items-center">了解合作流程<span className="ml-5">→</span></span>
-            </SolidBtn>
+            <SolidBtn bg="#FFFFFFcc" fg={ink[900]}>了解合作流程</SolidBtn>
           </Link>
         </div>
       </div>
