@@ -11,9 +11,65 @@ import { SolidBtn } from "@/components/site";
 const SUBCOPY =
   "为 AI 玩具、故事机、教育机器人等儿童终端，提供标准化内容接入、账号权益与持续运营能力，帮助设备快速上线可用、可管、可持续的儿童内容服务。";
 
+// Soft, photographic rainbow ribbons — refracted-light bands rather than hard
+// ROYGBIV arcs. One sweeps over the blob's top-right, one along the subtitle's
+// bottom-left. Heavy blur + low opacity keep them dewy; rendered before the blob
+// so the blob occludes the upper band. viewBox tracks the 1440-wide desktop comp.
+function RainbowRibbons() {
+  return (
+    <svg
+      className="pointer-events-none absolute inset-0 h-full w-full"
+      viewBox="0 0 1440 900"
+      preserveAspectRatio="xMidYMid slice"
+      aria-hidden
+    >
+      <defs>
+        {/* full-spectrum sweeps — more stops than a 3-colour ramp so the bands
+            (violet→blue→cyan→green→yellow→orange→pink) read distinctly */}
+        <linearGradient id="rb-tr" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#b76bf0" />
+          <stop offset="16%" stopColor="#7f9cff" />
+          <stop offset="32%" stopColor="#5fd0e0" />
+          <stop offset="48%" stopColor="#8fe09a" />
+          <stop offset="62%" stopColor="#ffd76b" />
+          <stop offset="78%" stopColor="#ff9a4d" />
+          <stop offset="90%" stopColor="#ff7eb3" />
+          <stop offset="100%" stopColor="#c77dff" />
+        </linearGradient>
+        <linearGradient id="rb-bl" x1="0%" y1="100%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#8fe0c0" />
+          <stop offset="16%" stopColor="#8fd4ff" />
+          <stop offset="34%" stopColor="#9f8cff" />
+          <stop offset="52%" stopColor="#c77dff" />
+          <stop offset="68%" stopColor="#ff8ac0" />
+          <stop offset="84%" stopColor="#ffb07a" />
+          <stop offset="100%" stopColor="#ffd76b" />
+        </linearGradient>
+      </defs>
+      {/* three nested layers per ribbon — wide faint halo, mid wash, crisp core —
+          stack into a layered refracted band rather than a flat stripe */}
+      <g style={{ filter: "blur(30px)" }}>
+        <path d="M 880 0 Q 1260 150 1520 470" fill="none" stroke="url(#rb-tr)" strokeWidth="150" strokeLinecap="round" opacity="0.34" />
+        <path d="M -100 540 Q 220 880 860 960" fill="none" stroke="url(#rb-bl)" strokeWidth="160" strokeLinecap="round" opacity="0.34" />
+      </g>
+      <g style={{ filter: "blur(16px)" }}>
+        <path d="M 880 0 Q 1260 150 1520 470" fill="none" stroke="url(#rb-tr)" strokeWidth="74" strokeLinecap="round" opacity="0.42" />
+        <path d="M -100 540 Q 220 880 860 960" fill="none" stroke="url(#rb-bl)" strokeWidth="80" strokeLinecap="round" opacity="0.42" />
+      </g>
+      <g style={{ filter: "blur(7px)" }}>
+        <path d="M 880 0 Q 1260 150 1520 470" fill="none" stroke="url(#rb-tr)" strokeWidth="26" strokeLinecap="round" opacity="0.5" />
+        <path d="M -100 540 Q 220 880 860 960" fill="none" stroke="url(#rb-bl)" strokeWidth="28" strokeLinecap="round" opacity="0.48" />
+      </g>
+    </svg>
+  );
+}
+
 export function HeroSky() {
   return (
     <section className="relative min-h-screen overflow-hidden">
+      {/* refracted rainbow light, behind the blob (top-right) and subtitle (bottom-left) */}
+      <RainbowRibbons />
+
       {/* blob sits directly under the nav's 接入说明 item (centerX ≈ 69%), behind
           the copy. resolution 72 overrides HeroBlob's perf default of 44 so the
           close-up surface stays glassy-smooth; the material override deepens

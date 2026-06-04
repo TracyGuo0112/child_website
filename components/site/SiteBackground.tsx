@@ -3,12 +3,14 @@
 // zero assets: clouds are fractal-noise (feTurbulence), not images. fixed + -z-10
 // underlays every route without touching NavBar's sticky or any page's overflow-hidden.
 
-// Cloud coverage: where the noise is painted. Bottom bank wells up wide; a soft
-// top-left patch adds wisps; the upper-centre sky stays clear blue.
+// Cloud coverage: where the noise is painted. Bottom bank wells up wide; tall
+// banks hug the left + right edges so the sides read cloudier; a denser mass
+// piles into the bottom-right corner; the upper-centre sky stays clear blue.
 const CLOUD_MASK =
   "radial-gradient(150% 72% at 50% 126%, #000 48%, transparent 82%)," +
-  "radial-gradient(60% 46% at 7% 3%, #000 6%, transparent 64%)," +
-  "radial-gradient(38% 28% at 90% 44%, #000 0%, transparent 70%)";
+  "radial-gradient(52% 78% at -4% 36%, #000 14%, transparent 74%)," +
+  "radial-gradient(50% 80% at 104% 52%, #000 12%, transparent 74%)," +
+  "radial-gradient(62% 58% at 100% 102%, #000 30%, transparent 76%)";
 
 export function SiteBackground() {
   return (
