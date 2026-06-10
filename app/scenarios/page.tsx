@@ -1,5 +1,5 @@
-import { surface, ink } from "@/components/palette";
-import { PageShell, ACCENT } from "@/components/site";
+import { ink } from "@/components/palette";
+import { PageShell, ACCENT, cardSurface } from "@/components/site";
 
 // 四类设备各一张卡，讲"装进去是什么样"。FORMS 前四项。
 const SCENARIOS = [
@@ -21,7 +21,7 @@ export default function ScenariosPage() {
           <div
             key={s.name}
             className="rounded-2xl p-8"
-            style={{ background: surface.raised, border: `1px solid ${ink.line}` }}
+            style={cardSurface}
           >
             {/* TODO: 设备图标 */}
             <div className="mb-4 h-10 w-10 rounded-xl" style={{ background: `${ACCENT.tint}` }} />

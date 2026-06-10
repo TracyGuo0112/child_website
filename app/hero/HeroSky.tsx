@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { ink } from "@/components/palette";
 import HeroBlob from "@/components/hero-blob/HeroBlob";
 import { SolidBtn } from "@/components/site";
@@ -19,10 +18,26 @@ const SUBCOPY = [
 // ROYGBIV arcs. One sweeps over the blob's top-right, one along the subtitle's
 // bottom-left. Heavy blur + low opacity keep them dewy; rendered before the blob
 // so the blob occludes the upper band. viewBox tracks the 1440-wide desktop comp.
+
+// One curve per ribbon, drawn three times (wide faint halo → mid wash → crisp
+// core) so the stack reads as a layered refracted band rather than a flat stripe.
+const RIBBONS = [
+  { gradient: "rb-tr", d: "M 880 0 Q 1260 150 1520 470" },
+  { gradient: "rb-bl", d: "M -100 540 Q 220 880 860 960" },
+];
+// strokes[i] = [strokeWidth, opacity] for RIBBONS[i] at that blur level.
+const RIBBON_LAYERS = [
+  { blur: 30, strokes: [[150, 0.34], [160, 0.34]] },
+  { blur: 16, strokes: [[74, 0.42], [80, 0.42]] },
+  { blur: 7, strokes: [[26, 0.5], [28, 0.48]] },
+];
+
 function RainbowRibbons() {
   return (
+    // hidden below lg alongside the blob — without it a headless ribbon stub
+    // floats in the corner on phones and reads as a rendering glitch
     <svg
-      className="pointer-events-none absolute inset-0 h-full w-full"
+      className="pointer-events-none absolute inset-0 hidden h-full w-full lg:block"
       viewBox="0 0 1440 900"
       preserveAspectRatio="xMidYMid slice"
       aria-hidden
@@ -51,20 +66,21 @@ function RainbowRibbons() {
           <stop offset="100%" stopColor="#ffd76b" />
         </linearGradient>
       </defs>
-      {/* three nested layers per ribbon — wide faint halo, mid wash, crisp core —
-          stack into a layered refracted band rather than a flat stripe */}
-      <g style={{ filter: "blur(30px)" }}>
-        <path d="M 880 0 Q 1260 150 1520 470" fill="none" stroke="url(#rb-tr)" strokeWidth="150" strokeLinecap="round" opacity="0.34" />
-        <path d="M -100 540 Q 220 880 860 960" fill="none" stroke="url(#rb-bl)" strokeWidth="160" strokeLinecap="round" opacity="0.34" />
-      </g>
-      <g style={{ filter: "blur(16px)" }}>
-        <path d="M 880 0 Q 1260 150 1520 470" fill="none" stroke="url(#rb-tr)" strokeWidth="74" strokeLinecap="round" opacity="0.42" />
-        <path d="M -100 540 Q 220 880 860 960" fill="none" stroke="url(#rb-bl)" strokeWidth="80" strokeLinecap="round" opacity="0.42" />
-      </g>
-      <g style={{ filter: "blur(7px)" }}>
-        <path d="M 880 0 Q 1260 150 1520 470" fill="none" stroke="url(#rb-tr)" strokeWidth="26" strokeLinecap="round" opacity="0.5" />
-        <path d="M -100 540 Q 220 880 860 960" fill="none" stroke="url(#rb-bl)" strokeWidth="28" strokeLinecap="round" opacity="0.48" />
-      </g>
+      {RIBBON_LAYERS.map(({ blur, strokes }) => (
+        <g key={blur} style={{ filter: `blur(${blur}px)` }}>
+          {RIBBONS.map((r, i) => (
+            <path
+              key={r.gradient}
+              d={r.d}
+              fill="none"
+              stroke={`url(#${r.gradient})`}
+              strokeWidth={strokes[i][0]}
+              strokeLinecap="round"
+              opacity={strokes[i][1]}
+            />
+          ))}
+        </g>
+      ))}
     </svg>
   );
 }
@@ -110,22 +126,15 @@ export function HeroSky() {
           带进每一台儿童终端
         </h1>
 
-        <p className="mt-10 ml-[7px] max-w-md text-sm leading-7" style={{ color: ink[700] }}>
-          {SUBCOPY.map((line, i) => (
-            <span key={i}>
-              {line}
-              {i < SUBCOPY.length - 1 && <br />}
-            </span>
-          ))}
+        {/* the three hand-balanced line breaks only hold above sm — on phones the
+            lines re-wrap anyway and forcing them produces ragged 6-line copy */}
+        <p className="mt-10 ml-[7px] max-w-md text-sm leading-7 sm:whitespace-pre-line" style={{ color: ink[700] }}>
+          {SUBCOPY.join("\n")}
         </p>
 
         <div className="mt-12 flex items-center gap-3">
-          <Link href="/integration">
-            <SolidBtn>查看接入说明</SolidBtn>
-          </Link>
-          <Link href="/process">
-            <SolidBtn bg="#FFFFFFcc" fg={ink[900]}>了解合作流程</SolidBtn>
-          </Link>
+          <SolidBtn href="/integration">查看接入说明</SolidBtn>
+          <SolidBtn href="/process" bg="#FFFFFFcc" fg={ink[900]}>了解合作流程</SolidBtn>
         </div>
       </div>
     </section>

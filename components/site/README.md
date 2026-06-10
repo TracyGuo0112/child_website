@@ -28,11 +28,11 @@ export default function Page() {
 |------|----|----|
 | `nav.ts` | 纯数据 | `BRAND` + `NAV {label,href}[]`,导航顺序的单一来源 |
 | `accent.ts` | 纯 token | `ACCENT` 橙色 ramp,CTA/高亮单一旋钮 |
-| `atoms.tsx` | server | `Wordmark`/`SolidBtn`/`LineBtn`/`Eyebrow`,无 hooks |
-| `NavBar.tsx` | **client** | 浮动 pill 导航,`usePathname` 高亮当前页 |
+| `atoms.tsx` | server | `Wordmark`/`SolidBtn`/`LineBtn`/`Eyebrow` + `cardSurface` 卡片表面样式,无 hooks。按钮传 `href` 即渲染为同样式 `Link`,不要在外面再包 `<Link>` |
+| `NavBar.tsx` | **client** | 浮动 pill 导航,`usePathname` 高亮当前页;`lg` 以下折叠为汉堡下拉菜单 |
 | `Footer.tsx` | server | 页脚 + 落地 CTA(半透明象牙玻璃,透出蓝天) |
 | `PageShell.tsx` | server | 内容页统一外壳(透明透出蓝天 + 避让 nav + 背景团子 + 标题区) |
-| `ShellBlobs.tsx` | **client** | 1 颗角落背景团子,封装 `hero-blob` |
+| `ShellBlobs.tsx` | server | 1 颗角落背景团子,封装 `hero-blob`(client 边界在 `HeroBlob` 内) |
 | `SiteBackground.tsx` | server | 全站固定背景(蓝天→暖奶白渐变 + 云白晕 + 两角彩虹缎带),纯 CSS/SVG 零资源,`fixed -z-10` |
 
 ## 已知约束

@@ -18,32 +18,44 @@ export function Wordmark({ color = ink[900] }: { color?: string }) {
   );
 }
 
+// Buttons render a <Link> when `href` is given — never nest them inside a Link
+// (button-in-anchor is invalid HTML and double-focuses for keyboard users).
 export function SolidBtn({
   children,
+  href,
   bg = ACCENT.deep,
   fg = surface.raised,
   size = "sm",
 }: {
   children: React.ReactNode;
+  href?: string;
   bg?: string;
   fg?: string;
   size?: "sm" | "lg";
 }) {
   const pad = size === "lg" ? "px-7 py-3.5 text-base" : "px-6 py-3 text-sm";
-  return (
-    <button className={`rounded-full font-semibold transition-transform hover:-translate-y-0.5 ${pad}`} style={{ background: bg, color: fg }}>
-      {children}
-    </button>
-  );
+  const cls = `inline-block whitespace-nowrap rounded-full font-semibold transition-transform hover:-translate-y-0.5 ${pad}`;
+  const style = { background: bg, color: fg };
+  if (href) {
+    return <Link href={href} className={cls} style={style}>{children}</Link>;
+  }
+  return <button className={cls} style={style}>{children}</button>;
 }
 
-export function LineBtn({ children, color = ink[900] }: { children: React.ReactNode; color?: string }) {
-  return (
-    <button className="rounded-full px-6 py-3 text-sm font-semibold transition-colors" style={{ border: `1.5px solid ${color}`, color }}>
-      {children}
-    </button>
-  );
+export function LineBtn({ children, href, color = ink[900] }: { children: React.ReactNode; href?: string; color?: string }) {
+  const cls = "inline-block whitespace-nowrap rounded-full px-6 py-3 text-sm font-semibold transition-transform hover:-translate-y-0.5";
+  const style = { border: `1.5px solid ${color}`, color };
+  if (href) {
+    return <Link href={href} className={cls} style={style}>{children}</Link>;
+  }
+  return <button className={cls} style={style}>{children}</button>;
 }
+
+// Shared lifted-card surface — the one card look every content page uses.
+export const cardSurface = {
+  background: surface.raised,
+  border: `1px solid ${ink.line}`,
+} as const;
 
 export function Eyebrow({ children }: { children: React.ReactNode }) {
   return (

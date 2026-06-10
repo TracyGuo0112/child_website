@@ -1,5 +1,5 @@
-import { ink, surface, pastels } from "@/components/palette";
-import { PageShell } from "@/components/site";
+import { ink, pastels } from "@/components/palette";
+import { PageShell, cardSurface } from "@/components/site";
 
 // Static jelly dot — a CSS-only gummy marble (volume gradient + top-left
 // highlight + soft halo). Pure CSS on purpose: 9 timeline nodes must not each
@@ -58,7 +58,7 @@ export default function ProcessPage() {
                 <span
                   key={item}
                   className="rounded-full px-3 py-1 text-xs"
-                  style={{ background: surface.raised, color: ink[700], border: `1px solid ${ink.line}` }}
+                  style={{ ...cardSurface, color: ink[700] }}
                 >
                   {item}
                 </span>

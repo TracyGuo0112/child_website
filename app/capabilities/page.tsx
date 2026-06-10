@@ -1,5 +1,5 @@
-import { surface, ink } from "@/components/palette";
-import { PageShell } from "@/components/site";
+import { ink } from "@/components/palette";
+import { PageShell, cardSurface } from "@/components/site";
 
 // Bento 栅格：6 块能力，个别块跨列/跨行成大格。
 const CAPS = [
@@ -23,7 +23,7 @@ export default function CapabilitiesPage() {
           <div
             key={c.name}
             className={`flex flex-col justify-end rounded-2xl p-6 ${c.span}`}
-            style={{ background: surface.raised, border: `1px solid ${ink.line}` }}
+            style={cardSurface}
           >
             <h3 className="text-base font-semibold" style={{ color: ink[900] }}>{c.name}</h3>
             <p className="mt-1 text-sm leading-relaxed" style={{ color: ink[700] }}>{c.desc}</p>

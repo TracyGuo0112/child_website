@@ -43,14 +43,17 @@ const THEME_ITEMS: { theme: ThemeName }[] = [
   { theme: "bubblegum" },
 ];
 
-const SHAPE_LABELS = ["Cloud", "Splat", "Donut", "Star", "Pebble", "Pill"];
-const THEME_LABELS = ["Reference", "Sunset", "Ocean", "Candy", "Aurora", "Bubblegum"];
-const VARIANT_LABELS = [0, 1, 2, 3, 4, 5].map((s) => `seed ${s}`);
+// Labels derive from the spec arrays so they can't drift out of sync.
+const cap = (s: string) => s[0].toUpperCase() + s.slice(1);
+const SHAPE_LABELS = SHAPES_ITEMS.map((it) => cap(it.shape));
+const THEME_LABELS = THEME_ITEMS.map((it) => cap(it.theme));
+const SEEDS = [0, 1, 2, 3, 4, 5];
+const VARIANT_LABELS = SEEDS.map((s) => `seed ${s}`);
 
 const shapesBlobs = gridLayout(SHAPES_ITEMS);
 const themeBlobs = gridLayout(THEME_ITEMS.map((t) => ({ shape: "splat" as ShapeName, ...t })));
 const variantBlobs = gridLayout(
-  [0, 1, 2, 3, 4, 5].map((seed) => ({ shape: "pebble" as ShapeName, theme: "candy" as ThemeName, seed })),
+  SEEDS.map((seed) => ({ shape: "pebble" as ShapeName, theme: "candy" as ThemeName, seed })),
 );
 
 // Camera distance to frame a 3-col / 2-row grid at scale 0.62.

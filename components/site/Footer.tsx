@@ -20,14 +20,12 @@ export function Footer() {
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed" style={{ color: ink[700] }}>
           {/* TODO: 落地文案待定 */}
-          标准化接入方案,设备点播版权内容,家长端管理会员,权益随设备发放。
+          标准化接入方案，设备点播版权内容，家长端管理会员，权益随设备发放。
         </p>
         <div className="mt-8 flex items-center justify-center gap-4">
-          {/* TODO: 申请合作 CTA 目标页未定 */}
-          <SolidBtn>申请合作</SolidBtn>
-          <Link href="/integration">
-            <LineBtn>查看接入说明</LineBtn>
-          </Link>
+          {/* TODO: 申请合作落地页未定，暂指向 /process */}
+          <SolidBtn href="/process">申请合作</SolidBtn>
+          <LineBtn href="/integration">查看接入说明</LineBtn>
         </div>
       </div>
 

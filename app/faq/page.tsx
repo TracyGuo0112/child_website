@@ -1,5 +1,5 @@
-import { surface, ink } from "@/components/palette";
-import { PageShell } from "@/components/site";
+import { ink } from "@/components/palette";
+import { PageShell, cardSurface } from "@/components/site";
 
 // 原生 <details>/<summary> 折叠 —— server-safe，零 JS（KISS）。
 const FAQS = [
@@ -21,10 +21,23 @@ export default function FaqPage() {
           <details
             key={item.q}
             className="group rounded-2xl p-6"
-            style={{ background: surface.raised, border: `1px solid ${ink.line}` }}
+            style={cardSurface}
           >
-            <summary className="cursor-pointer list-none text-base font-semibold marker:content-none" style={{ color: ink[900] }}>
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-base font-semibold marker:content-none" style={{ color: ink[900] }}>
               {item.q}
+              {/* affordance: the native marker is hidden, so a chevron signals "expandable" */}
+              <svg
+                viewBox="0 0 24 24"
+                className="h-4 w-4 shrink-0 transition-transform group-open:rotate-180"
+                fill="none"
+                stroke={ink[500]}
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden
+              >
+                <path d="M6 9l6 6 6-6" />
+              </svg>
             </summary>
             <p className="mt-3 text-sm leading-relaxed" style={{ color: ink[700] }}>{item.a}</p>
           </details>

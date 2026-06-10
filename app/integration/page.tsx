@@ -1,5 +1,5 @@
 import { surface, ink, pastels } from "@/components/palette";
-import { PageShell, ACCENT } from "@/components/site";
+import { PageShell, ACCENT, cardSurface } from "@/components/site";
 
 // 双子系统：一套账号体系下分家长端与玩具端，各自载体与职责不同。
 const SUBSYSTEMS = [
@@ -76,7 +76,7 @@ export default function IntegrationPage() {
           <div
             key={s.key}
             className="flex flex-col rounded-2xl p-7"
-            style={{ background: surface.raised, border: `1px solid ${ink.line}` }}
+            style={cardSurface}
           >
             <div className="flex items-center gap-3">
               <span
@@ -115,7 +115,7 @@ export default function IntegrationPage() {
           <div
             key={t.label}
             className="rounded-2xl p-5"
-            style={{ background: surface.raised, border: `1px solid ${ink.line}` }}
+            style={cardSurface}
           >
             <div className="text-xs" style={{ color: ink[500] }}>{t.label}</div>
             <div className="mt-1.5 text-lg font-semibold tabular-nums" style={{ color: ink[900] }}>
@@ -138,7 +138,7 @@ export default function IntegrationPage() {
           <div
             key={p.name}
             className="flex items-start gap-3 rounded-2xl p-5"
-            style={{ background: surface.raised, border: `1px solid ${ink.line}` }}
+            style={cardSurface}
           >
             <span
               className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-semibold tabular-nums"
@@ -166,7 +166,7 @@ export default function IntegrationPage() {
           <div
             key={f.group}
             className="rounded-2xl p-6"
-            style={{ background: surface.raised, border: `1px solid ${ink.line}` }}
+            style={cardSurface}
           >
             <span
               className="inline-block rounded-full px-3 py-1 text-xs font-semibold"

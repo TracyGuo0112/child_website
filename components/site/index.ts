@@ -9,6 +9,6 @@ export { NavBar } from "./NavBar";
 export { Footer } from "./Footer";
 export { PageShell } from "./PageShell";
 export { SiteBackground } from "./SiteBackground";
-export { Wordmark, SolidBtn, LineBtn, Eyebrow } from "./atoms";
+export { Wordmark, SolidBtn, LineBtn, Eyebrow, cardSurface } from "./atoms";
 export { ACCENT } from "./accent";
 export { BRAND, NAV } from "./nav";
