@@ -45,7 +45,7 @@ export function ParentSection() {
             <p className="mt-1 text-xs leading-relaxed" style={{ color: ink[700] }}>{c.desc}</p>
           </div>
         ))}
-        <div className="rounded-2xl p-5" style={{ background: ACCENT.tint, border: `1px solid ${ink.line}` }}>
+        <div className="rounded-2xl p-5" style={cardSurface}>
           <h4 className="text-sm font-semibold" style={{ color: ACCENT.deep }}>内容投射</h4>
           <p className="mt-1 text-xs leading-relaxed" style={{ color: ink[700] }}>
             支持投射单集或整张专辑到设备播放；专辑信息、单集列表带免费 / 会员标识。
@@ -99,7 +99,7 @@ export function ParentSection() {
           <p className="mt-1.5 text-sm leading-relaxed" style={{ color: ink[700] }}>由喜马提供合规支付路径（具体方案对接时确认）。</p>
         </div>
       </div>
-      <div className="mt-4 rounded-2xl p-6" style={{ background: ACCENT.tint, border: `1px solid ${ink.line}` }}>
+      <div className="mt-4 rounded-2xl p-6" style={cardSurface}>
         <h4 className="text-sm font-semibold" style={{ color: ACCENT.deep }}>分成机制</h4>
         <p className="mt-1.5 text-sm leading-relaxed" style={{ color: ink[700] }}>
           通过合作渠道完成的续费订单，喜马按订单渠道标识与厂商结算分成，形成持续收入。具体比例商务洽谈确定。
