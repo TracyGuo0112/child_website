@@ -12,7 +12,7 @@ import { BRAND } from "./nav";
 export function Wordmark({ color = ink[900] }: { color?: string }) {
   return (
     <Link href="/" className="inline-flex items-center gap-2 whitespace-nowrap text-base font-semibold tracking-tight" style={{ color }}>
-      <Image src="/brand/mascot-logo.png" alt="" width={36} height={36} className="h-9 w-9 object-contain" priority />
+      <Image src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/brand/mascot-logo.png`} alt="" width={36} height={36} className="h-9 w-9 object-contain" priority />
       {BRAND}
     </Link>
   );
