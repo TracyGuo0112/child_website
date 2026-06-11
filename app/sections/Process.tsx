@@ -1,5 +1,6 @@
 import { ink, pastels } from "@/components/palette";
-import { PageShell, cardSurface } from "@/components/site";
+import { cardSurface } from "@/components/site";
+import { Section } from "@/components/site/Section";
 
 // Static jelly dot — a CSS-only gummy marble (volume gradient + top-left
 // highlight + soft halo). Pure CSS on purpose: 9 timeline nodes must not each
@@ -38,9 +39,10 @@ const NODES = [
   { n: "09", title: "运营售后", items: ["内容更新", "数据报表", "技术支持"] },
 ];
 
-export default function ProcessPage() {
+export function ProcessSection() {
   return (
-    <PageShell
+    <Section
+      id="process"
       title="从资料对接到上线运营"
       lead="从资料介绍到运营售后，一条主线贯穿商务洽谈、技术接入与上线运营的关键节点。"
     >
@@ -67,6 +69,6 @@ export default function ProcessPage() {
           </li>
         ))}
       </ol>
-    </PageShell>
+    </Section>
   );
 }

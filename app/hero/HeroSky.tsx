@@ -87,7 +87,7 @@ function RainbowRibbons() {
 
 export function HeroSky() {
   return (
-    <section className="relative min-h-screen overflow-hidden">
+    <section id="hero" className="relative min-h-screen overflow-hidden">
       {/* refracted rainbow light, behind the blob (top-right) and subtitle (bottom-left) */}
       <RainbowRibbons />
 
@@ -133,8 +133,8 @@ export function HeroSky() {
         </p>
 
         <div className="mt-12 flex items-center gap-3">
-          <SolidBtn href="/integration">查看接入说明</SolidBtn>
-          <SolidBtn href="/process" bg="#FFFFFFcc" fg={ink[900]}>了解合作流程</SolidBtn>
+          <SolidBtn href="#integration">查看接入说明</SolidBtn>
+          <SolidBtn href="#process" bg="#FFFFFFcc" fg={ink[900]}>了解合作流程</SolidBtn>
         </div>
       </div>
     </section>

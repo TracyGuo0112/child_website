@@ -1,18 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { surface, ink } from "@/components/palette";
 import { ACCENT } from "./accent";
 import { NAV } from "./nav";
 import { Wordmark, SolidBtn } from "./atoms";
-
-// "/" must match exactly, else it lights up on every route; nested routes use a
-// prefix match so a future /scenarios/xxx still highlights its top-level item.
-function isActive(pathname: string, href: string) {
-  return href === "/" ? pathname === "/" : pathname.startsWith(href);
-}
 
 // Crystal-glass surface, shared by the pill bar and the mobile dropdown: a
 // low-opacity white tint over a strong backdrop blur (the sky bleeds through,
@@ -23,16 +15,52 @@ const glass = {
   boxShadow: `inset 0 1px 1px ${surface.raised}66, inset 0 -1px 2px ${ink[900]}0a, 0 10px 28px -12px ${ink[900]}1f`,
 } as const;
 
+// Scroll-spy over the single-page sections: the topmost section inside the
+// upper-viewport band owns the highlight. IntersectionObserver, not scroll
+// events — fires only on boundary crossings, not every frame.
+function useActiveSection() {
+  const [active, setActive] = useState<string>(NAV[0].href);
+
+  useEffect(() => {
+    const visible = new Map<string, number>();
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) visible.set(e.target.id, e.boundingClientRect.top);
+          else visible.delete(e.target.id);
+        }
+        // topmost visible section wins; if none visible (mid-jump), keep current
+        let best: string | null = null;
+        let bestTop = Infinity;
+        visible.forEach((top, id) => {
+          if (top < bestTop) { bestTop = top; best = id; }
+        });
+        if (best) setActive(`#${best}`);
+      },
+      // count a section as "active" while it owns the upper half of the screen —
+      // matches where the reader's eye is
+      { rootMargin: "-15% 0px -50% 0px" },
+    );
+
+    for (const { href } of NAV) {
+      const el = document.getElementById(href.slice(1));
+      if (el) observer.observe(el);
+    }
+    return () => observer.disconnect();
+  }, []);
+
+  return active;
+}
+
 // Page-level floating pill nav. Mounted in the root layout as a direct child of
 // <body> — never inside a page's overflow-hidden, which would clip its `sticky`.
+// Single-page site: links are hash anchors; the highlight comes from scroll-spy.
 // Below lg the link row collapses into a hamburger dropdown — without it,
-// tablet/small-laptop visitors would have no way to reach any route.
+// tablet/small-laptop visitors would have no way to reach any section.
 export function NavBar() {
-  const pathname = usePathname();
+  const active = useActiveSection();
   const [open, setOpen] = useState(false);
-
-  // A route change means a link was chosen — fold the mobile menu away.
-  useEffect(() => setOpen(false), [pathname]);
 
   return (
     // Outer sticky band provides top offset + side gutters so the pill floats in
@@ -47,19 +75,19 @@ export function NavBar() {
         {/* nav links + CTA grouped to the right — kills the empty middle gap */}
         <div className="ml-auto hidden items-center gap-6 text-sm lg:flex" style={{ color: ink[700] }}>
           {NAV.map(({ label, href }) => (
-            <Link
+            <a
               key={href}
               href={href}
               className="cursor-pointer hover:opacity-70"
-              style={isActive(pathname, href) ? { color: ACCENT.deep, fontWeight: 600 } : undefined}
+              style={active === href ? { color: ACCENT.deep, fontWeight: 600 } : undefined}
             >
               {label}
-            </Link>
+            </a>
           ))}
         </div>
-        {/* TODO: 申请合作落地页未定，暂指向 /process */}
+        {/* TODO: 申请合作落地页未定，暂指向合作流程 */}
         <div className="hidden lg:block">
-          <SolidBtn href="/process">申请合作</SolidBtn>
+          <SolidBtn href="#process">申请合作</SolidBtn>
         </div>
         {/* below lg: hamburger replaces the link row + CTA (both live in the dropdown) */}
         <button
@@ -82,21 +110,22 @@ export function NavBar() {
           style={{ ...glass, background: `${surface.raised}e6` }}
         >
           {NAV.map(({ label, href }) => (
-            <Link
+            <a
               key={href}
               href={href}
               className="block rounded-full px-4 py-2.5 text-sm"
+              onClick={() => setOpen(false)}
               style={
-                isActive(pathname, href)
+                active === href
                   ? { color: ACCENT.deep, fontWeight: 600, background: ACCENT.tint }
                   : { color: ink[700] }
               }
             >
               {label}
-            </Link>
+            </a>
           ))}
           <div className="px-4 pb-1 pt-3">
-            <SolidBtn href="/process">申请合作</SolidBtn>
+            <SolidBtn href="#process">申请合作</SolidBtn>
           </div>
         </div>
       )}

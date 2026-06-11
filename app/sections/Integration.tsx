@@ -1,5 +1,6 @@
 import { surface, ink, pastels } from "@/components/palette";
-import { PageShell, ACCENT, cardSurface } from "@/components/site";
+import { ACCENT, cardSurface } from "@/components/site";
+import { Section } from "@/components/site/Section";
 
 // 双子系统：一套账号体系下分家长端与玩具端，各自载体与职责不同。
 const SUBSYSTEMS = [
@@ -64,9 +65,10 @@ const FEATURES = [
 ];
 
 
-export default function IntegrationPage() {
+export function IntegrationSection() {
   return (
-    <PageShell
+    <Section
+      id="integration"
       title="一套账号，两端接入"
       lead="家长端用 H5 管内容与会员，玩具端用 SDK 做语音点播与播放，两端共用同一套喜马拉雅账号——家长登录的账号即玩具播放所用的账号。"
     >
@@ -104,9 +106,9 @@ export default function IntegrationPage() {
       </div>
 
       {/* 接入门槛：厂商先判断自家硬件能否承载 */}
-      <h2 className="mt-14 text-xl font-semibold tracking-tight" style={{ color: ink[900] }}>
+      <h3 className="mt-14 text-xl font-semibold tracking-tight" style={{ color: ink[900] }}>
         接入门槛
-      </h2>
+      </h3>
       <p className="mt-2 max-w-2xl text-sm leading-relaxed" style={{ color: ink[700] }}>
         SDK 为 C 语言嵌入式实现，资源占用低、异步处理不阻塞主线程。先对照下列指标确认硬件可承载。
       </p>
@@ -127,9 +129,9 @@ export default function IntegrationPage() {
       </div>
 
       {/* Platform 适配：厂商自己的工作量，6 类硬件相关接口 */}
-      <h2 className="mt-14 text-xl font-semibold tracking-tight" style={{ color: ink[900] }}>
+      <h3 className="mt-14 text-xl font-semibold tracking-tight" style={{ color: ink[900] }}>
         你需要做的适配
-      </h2>
+      </h3>
       <p className="mt-2 text-sm leading-relaxed" style={{ color: ink[700] }}>
         喜马按需求编译并交付 SDK 库 + UI 切图。厂商只需实现 platform 层这几类硬件相关接口，即可把 SDK 跑通在自家系统上。
       </p>
@@ -147,7 +149,7 @@ export default function IntegrationPage() {
               {i + 1}
             </span>
             <div>
-              <h3 className="text-sm font-semibold" style={{ color: ink[900] }}>{p.name}</h3>
+              <h4 className="text-sm font-semibold" style={{ color: ink[900] }}>{p.name}</h4>
               <p className="mt-0.5 text-xs leading-relaxed" style={{ color: ink[700] }}>{p.note}</p>
             </div>
           </div>
@@ -155,9 +157,9 @@ export default function IntegrationPage() {
       </div>
 
       {/* SDK 功能列表：四大分组，开箱即用的能力盘点 */}
-      <h2 className="mt-14 text-xl font-semibold tracking-tight" style={{ color: ink[900] }}>
+      <h3 className="mt-14 text-xl font-semibold tracking-tight" style={{ color: ink[900] }}>
         SDK 功能列表
-      </h2>
+      </h3>
       <p className="mt-2 text-sm leading-relaxed" style={{ color: ink[700] }}>
         适配完成后，下列能力开箱即用——按需求可用编译参数做功能裁剪，只编进自家方案需要的部分。
       </p>
@@ -189,6 +191,6 @@ export default function IntegrationPage() {
           </div>
         ))}
       </div>
-    </PageShell>
+    </Section>
   );
 }

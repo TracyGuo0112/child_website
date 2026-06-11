@@ -11,7 +11,7 @@ import { BRAND } from "./nav";
 // Logo + wordmark, links home. The mascot PNG is pre-cut (yellow bg removed).
 export function Wordmark({ color = ink[900] }: { color?: string }) {
   return (
-    <Link href="/" className="inline-flex items-center gap-2 whitespace-nowrap text-base font-semibold tracking-tight" style={{ color }}>
+    <Link href="#hero" className="inline-flex items-center gap-2 whitespace-nowrap text-base font-semibold tracking-tight" style={{ color }}>
       <Image src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/brand/mascot-logo.png`} alt="" width={36} height={36} className="h-9 w-9 object-contain" priority />
       {BRAND}
     </Link>
@@ -56,12 +56,3 @@ export const cardSurface = {
   background: surface.raised,
   border: `1px solid ${ink.line}`,
 } as const;
-
-export function Eyebrow({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.25em]" style={{ color: ACCENT.deep }}>
-      <span className="inline-block h-px w-7" style={{ background: ACCENT.deep }} />
-      {children}
-    </span>
-  );
-}

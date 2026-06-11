@@ -12,6 +12,11 @@
   --foreground: #362C24; /* ink.900 */
 }
 
+/* Single-page anchor nav — glide to sections instead of jumping */
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   color: var(--foreground);
   background: var(--background);
