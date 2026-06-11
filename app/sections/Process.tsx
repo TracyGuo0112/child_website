@@ -3,7 +3,7 @@ import { cardSurface } from "@/components/site";
 import { Section } from "@/components/site/Section";
 
 // Static jelly dot — a CSS-only gummy marble (volume gradient + top-left
-// highlight + soft halo). Pure CSS on purpose: 9 timeline nodes must not each
+// highlight + soft halo). Pure CSS on purpose: the timeline nodes must not each
 // spin up a WebGL context (the home hero already taught us that lesson).
 const JELLY = [pastels.sky, pastels.sage, pastels.wisteria, pastels.blush];
 
@@ -31,12 +31,11 @@ const NODES = [
     title: "技术答疑",
     items: ["娃端接入（支持 AI 点播）", "家长端小程序（支持推送）", "账号打通（SSO / 授权）", "接入文档 · 工作量 · 周期评估"],
   },
-  { n: "04", title: "案例验证", items: ["已上市案例", "测试账号", "真机 Demo"] },
-  { n: "05", title: "商业模式", items: ["付费入口", "免费 / 付费内容比例", "会员体系"] },
-  { n: "06", title: "报价分成", items: ["分成比例", "结算周期", "对账方式"] },
-  { n: "07", title: "签约合规", items: ["合作协议", "内容授权", "未成年人保护"] },
-  { n: "08", title: "联调上线", items: ["技术联调", "灰度测试", "验收发布"] },
-  { n: "09", title: "运营售后", items: ["内容更新", "数据报表", "技术支持"] },
+  { n: "04", title: "商业模式", items: ["付费入口", "免费 / 付费内容比例", "会员体系"] },
+  { n: "05", title: "报价分成", items: ["分成比例", "结算周期", "对账方式"] },
+  { n: "06", title: "签约合规", items: ["合作协议", "内容授权", "未成年人保护"] },
+  { n: "07", title: "联调上线", items: ["技术联调", "灰度测试", "验收发布"] },
+  { n: "08", title: "运营售后", items: ["内容更新", "数据报表", "技术支持"] },
 ];
 
 export function ProcessSection() {
