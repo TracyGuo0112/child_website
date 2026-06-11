@@ -54,11 +54,15 @@ export default function BlobScene({
   return (
     <Canvas
       className={className}
-      dpr={[1, 2]}
+      // dpr capped at 1.5: full retina 2× nearly doubles fill cost (plus the
+      // transmission pass renders the scene twice) for no visible gain on these
+      // soft, blurry-edged blobs.
+      dpr={[1, 1.5]}
       camera={{ position: [0, 0, cameraZ], fov }}
       gl={{
         alpha: true,
         antialias: true,
+        powerPreference: "high-performance",
         toneMapping: THREE.ACESFilmicToneMapping,
         toneMappingExposure: exposure,
       }}

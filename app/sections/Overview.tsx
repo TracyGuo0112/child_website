@@ -2,7 +2,7 @@ import { ink, pastels } from "@/components/palette";
 import { cardSurface } from "@/components/site";
 import { Section } from "@/components/site/Section";
 
-// 方案三大价值主张 + 适用设备边界，取自《接入方案（对外版）》一、方案概述。
+// 方案价值主张 + 适用设备边界，取自《接入方案（对外版）》一、方案概述。
 const VALUES = [
   {
     title: "家长端管理",
@@ -13,11 +13,6 @@ const VALUES = [
     title: "玩具端点播",
     desc: "玩具设备通过语音交互直接点播喜马拉雅正版儿童内容。",
     c: pastels.sage,
-  },
-  {
-    title: "续费分成",
-    desc: "用户会员到期后可自主续费，厂商按渠道参与订单分成，形成持续收入。",
-    c: pastels.clay,
   },
 ];
 
@@ -31,7 +26,7 @@ export function OverviewSection() {
       title="面向 AI 玩具厂商开放内容能力"
       lead="喜马拉雅儿童内容生态面向 AI 玩具厂商开放内容能力。本方案用于评估接入价值与技术成本；完整接口文档、SDK 集成手册及加密对接规范，将在签署合作协议后提供。"
     >
-      <div className="grid gap-6 sm:grid-cols-3">
+      <div className="grid gap-6 sm:grid-cols-2">
         {VALUES.map((v) => (
           <div key={v.title} className="rounded-2xl p-7" style={cardSurface}>
             <span

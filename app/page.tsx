@@ -1,5 +1,5 @@
 import { HeroSky } from "./hero/HeroSky";
-import { ShellBlobs } from "@/components/site";
+import { ShellBlobs, Skyline } from "@/components/site";
 import { OverviewSection } from "./sections/Overview";
 import { ArchitectureSection } from "./sections/Architecture";
 import { ParentSection } from "./sections/Parent";
@@ -20,11 +20,19 @@ export default function Home() {
         <ShellBlobs />
         <div className="relative z-10 pb-8">
           <OverviewSection />
+          {/* seed rotates each divider's rainbow start hue; flip alternates the
+              mirroring — six dividers, no two alike */}
+          <Skyline seed={0} />
           <ArchitectureSection />
+          <Skyline seed={2} flip />
           <ParentSection />
+          <Skyline seed={4} />
           <ToySection />
+          <Skyline seed={1} flip />
           <IntegrationSection />
+          <Skyline seed={3} />
           <ConstraintsSection />
+          <Skyline seed={5} flip />
           <ProcessSection />
         </div>
       </div>

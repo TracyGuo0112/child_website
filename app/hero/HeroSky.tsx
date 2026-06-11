@@ -92,9 +92,11 @@ export function HeroSky() {
       <RainbowRibbons />
 
       {/* blob sits directly under the nav's 接入说明 item (centerX ≈ 69%), behind
-          the copy. resolution 72 overrides HeroBlob's perf default of 44 so the
-          close-up surface stays glassy-smooth; the material override deepens
-          transmission + iridescence for the dewy candy look of the reference. */}
+          the copy. resolution 60 overrides HeroBlob's perf default of 44 so the
+          close-up surface stays glassy-smooth — marching cubes is O(res³)/frame
+          on the CPU, and 72 cost ~70% more than 60 for no visible difference;
+          the material override deepens transmission + iridescence for the dewy
+          candy look of the reference. */}
       <div className="pointer-events-none absolute left-[69.4%] top-[48%] hidden h-[84%] w-[52%] -translate-x-1/2 -translate-y-1/2 lg:block">
         <HeroBlob
           cameraZ={2.3}
@@ -103,7 +105,7 @@ export function HeroSky() {
             shape: "star",
             theme: "candyHarmony",
             scale: 0.88,
-            resolution: 72,
+            resolution: 60,
             material: { roughness: 0.18, transmission: 0.24, iridescence: 0.55, iridescenceIOR: 1.35, thickness: 0.65, clearcoat: 0.7, clearcoatRoughness: 0.25, envMapIntensity: 1.2 },
             // slow self-spin + gentle radial throb: a turning, twinkling candy star.
             // The core sits at field center, so it stays put while the arms orbit/pulse.
