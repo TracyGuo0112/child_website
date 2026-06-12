@@ -105,7 +105,10 @@ export function ParentSection() {
           通过合作渠道完成的续费订单，喜马按订单渠道标识与厂商结算分成，形成持续收入。具体比例商务洽谈确定。
         </p>
       </div>
-      <div className="mx-auto mt-6 max-w-2xl rounded-3xl p-6 sm:p-10" style={cardSurface}>
+      <h3 className="mt-14 text-xl font-semibold tracking-tight" style={{ color: ink[900] }}>
+        C 端用户付费链路 · 有屏玩具支持双端支付链路
+      </h3>
+      <div className="mx-auto mt-5 max-w-2xl rounded-3xl p-6 sm:p-10" style={cardSurface}>
         <Image
           src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/diagrams/payment-flow.png`}
           alt="C 端用户付费链路：无屏玩具经原生 App 或微信小程序完成支付，有屏玩具扫码进入货架页支付"
@@ -113,7 +116,6 @@ export function ParentSection() {
           height={950}
           className="h-auto w-full"
         />
-        <p className="mt-3 text-center text-xs" style={{ color: ink[500] }}>C 端用户付费链路 · 有屏玩具支持双端支付链路</p>
       </div>
     </Section>
   );

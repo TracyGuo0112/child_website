@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import { surface, ink } from "@/components/palette";
 import { ACCENT } from "./accent";
 import { NAV } from "./nav";
-import { Wordmark, SolidBtn } from "./atoms";
+import { Wordmark } from "./atoms";
+import { ApplyBtn } from "./ApplyBtn";
 
 // Crystal-glass surface, shared by the pill bar and the mobile dropdown: a
 // low-opacity white tint over a strong backdrop blur (the sky bleeds through,
@@ -85,9 +86,8 @@ export function NavBar() {
             </a>
           ))}
         </div>
-        {/* TODO: 申请合作落地页未定，暂指向合作流程 */}
         <div className="hidden lg:block">
-          <SolidBtn href="#process">申请合作</SolidBtn>
+          <ApplyBtn />
         </div>
         {/* below lg: hamburger replaces the link row + CTA (both live in the dropdown) */}
         <button
@@ -125,7 +125,8 @@ export function NavBar() {
             </a>
           ))}
           <div className="px-4 pb-1 pt-3">
-            <SolidBtn href="#process">申请合作</SolidBtn>
+            {/* opening the modal also collapses the dropdown underneath it */}
+            <ApplyBtn onOpen={() => setOpen(false)} />
           </div>
         </div>
       )}

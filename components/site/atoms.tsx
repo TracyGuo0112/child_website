@@ -23,12 +23,14 @@ export function Wordmark({ color = ink[900] }: { color?: string }) {
 export function SolidBtn({
   children,
   href,
+  onClick,
   bg = ACCENT.deep,
   fg = surface.raised,
   size = "sm",
 }: {
   children: React.ReactNode;
   href?: string;
+  onClick?: () => void;
   bg?: string;
   fg?: string;
   size?: "sm" | "lg";
@@ -39,7 +41,7 @@ export function SolidBtn({
   if (href) {
     return <Link href={href} className={cls} style={style}>{children}</Link>;
   }
-  return <button className={cls} style={style}>{children}</button>;
+  return <button className={cls} style={style} onClick={onClick}>{children}</button>;
 }
 
 export function LineBtn({ children, href, color = ink[900] }: { children: React.ReactNode; href?: string; color?: string }) {
