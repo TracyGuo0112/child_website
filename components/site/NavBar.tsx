@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { surface, ink } from "@/components/palette";
 import { ACCENT } from "./accent";
 import { NAV } from "./nav";
-import { Wordmark } from "./atoms";
-import { ApplyBtn } from "./ApplyBtn";
+import { Wordmark, SolidBtn } from "./atoms";
+import { ContactModal } from "./ApplyBtn";
 
 // Crystal-glass surface, shared by the pill bar and the mobile dropdown: a
 // low-opacity white tint over a strong backdrop blur (the sky bleeds through,
@@ -62,6 +62,9 @@ function useActiveSection() {
 export function NavBar() {
   const active = useActiveSection();
   const [open, setOpen] = useState(false);
+  // modal state lives here, not inside the dropdown — closing the dropdown
+  // unmounts its children, which would destroy a modal opened from within
+  const [contactOpen, setContactOpen] = useState(false);
 
   return (
     // Outer sticky band provides top offset + side gutters so the pill floats in
@@ -87,7 +90,7 @@ export function NavBar() {
           ))}
         </div>
         <div className="hidden lg:block">
-          <ApplyBtn />
+          <SolidBtn onClick={() => setContactOpen(true)}>申请合作</SolidBtn>
         </div>
         {/* below lg: hamburger replaces the link row + CTA (both live in the dropdown) */}
         <button
@@ -126,10 +129,12 @@ export function NavBar() {
           ))}
           <div className="px-4 pb-1 pt-3">
             {/* opening the modal also collapses the dropdown underneath it */}
-            <ApplyBtn onOpen={() => setOpen(false)} />
+            <SolidBtn onClick={() => { setOpen(false); setContactOpen(true); }}>申请合作</SolidBtn>
           </div>
         </div>
       )}
+
+      <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
     </div>
   );
 }
