@@ -1,7 +1,7 @@
 import { surface, ink } from "@/components/palette";
 import { ACCENT } from "./accent";
 import { BRAND, NAV } from "./nav";
-import { SolidBtn, LineBtn } from "./atoms";
+import { SolidBtn } from "./atoms";
 import Link from "next/link";
 
 // Site footer with a closing call-to-action. Server component — imports atoms /
@@ -22,7 +22,6 @@ export function Footer() {
         <div className="mt-8 flex items-center justify-center gap-4">
           {/* TODO: 申请合作落地页未定，暂指向合作流程 */}
           <SolidBtn href="#process">申请合作</SolidBtn>
-          <LineBtn href="#integration">查看接入说明</LineBtn>
         </div>
       </div>
 

@@ -9,7 +9,6 @@ export const NAV = [
   { label: "整体架构", href: "#architecture" },
   { label: "家长端能力", href: "#parent" },
   { label: "玩具端 SDK", href: "#toy" },
-  { label: "接入说明", href: "#integration" },
   { label: "约束与数据", href: "#constraints" },
   { label: "合作流程", href: "#process" },
 ] as const;

@@ -3,7 +3,7 @@ import HeroBlob from "@/components/hero-blob/HeroBlob";
 import { SolidBtn } from "@/components/site";
 
 // The live hero: a full-bleed sky scene. A big serif headline sits left with the
-// candy blob under the nav's 接入说明 item (blob behind the copy). Reuses HeroBlob
+// candy blob under the nav's right half (blob behind the copy). Reuses HeroBlob
 // (visibility-gated) and SolidBtn; only this layout is hero-specific. Tuned for the
 // 1440-wide desktop comp.
 
@@ -91,7 +91,7 @@ export function HeroSky() {
       {/* refracted rainbow light, behind the blob (top-right) and subtitle (bottom-left) */}
       <RainbowRibbons />
 
-      {/* blob sits directly under the nav's 接入说明 item (centerX ≈ 69%), behind
+      {/* blob sits under the right half of the nav (centerX ≈ 69%), behind
           the copy. resolution 60 overrides HeroBlob's perf default of 44 so the
           close-up surface stays glassy-smooth — marching cubes is O(res³)/frame
           on the CPU, and 72 cost ~70% more than 60 for no visible difference;
@@ -135,8 +135,7 @@ export function HeroSky() {
         </p>
 
         <div className="mt-12 flex items-center gap-3">
-          <SolidBtn href="#integration">查看接入说明</SolidBtn>
-          <SolidBtn href="#process" bg="#FFFFFFcc" fg={ink[900]}>了解合作流程</SolidBtn>
+          <SolidBtn href="#process">了解合作流程</SolidBtn>
         </div>
       </div>
     </section>
