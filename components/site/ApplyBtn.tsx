@@ -4,12 +4,9 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { ink } from "@/components/palette";
-import { ACCENT } from "./accent";
 import { SolidBtn } from "./atoms";
 
-const BD_PHONE = "15712017127";
-
-// Contact modal (BD WeChat QR + phone) — controlled, so a parent can keep it
+// Contact modal (BD WeChat QR) — controlled, so a parent can keep it
 // mounted outside containers that unmount on interaction (e.g. NavBar's mobile
 // dropdown collapses when its 申请合作 is tapped; local state inside the
 // dropdown would be destroyed before the modal ever renders).
@@ -67,17 +64,10 @@ export function ContactModal({ open, onClose }: { open: boolean; onClose: () => 
         <Image
           src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/brand/bd-wechat.png`}
           alt="商务微信二维码"
-          width={924}
+          width={968}
           height={1433}
           className="mx-auto mt-4 w-full rounded-xl"
         />
-
-        <p className="mt-4 text-sm" style={{ color: ink[700] }}>
-          商务负责人&nbsp;
-          <a href={`tel:${BD_PHONE}`} className="font-semibold hover:opacity-70" style={{ color: ACCENT.deep }}>
-            {BD_PHONE}
-          </a>
-        </p>
       </div>
     </div>,
     document.body,

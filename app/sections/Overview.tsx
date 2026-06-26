@@ -43,7 +43,7 @@ export function OverviewSection() {
       <h3 className="mt-14 text-xl font-semibold tracking-tight" style={{ color: ink[900] }}>
         适用设备类型
       </h3>
-      <p className="mt-2 text-sm" style={{ color: ink[500] }}>* 具体需根据芯片性能进行评估</p>
+      <p className="mt-2 text-sm" style={{ color: ink[500] }}>* SDK 支持各类芯片平台，不依赖芯片底层架构</p>
       <div className="mt-5 grid gap-6 sm:grid-cols-2">
         <div className="rounded-2xl p-7" style={cardSurface}>
           <div className="text-sm font-semibold" style={{ color: pastels.sage.deep }}>✓ 适用</div>
