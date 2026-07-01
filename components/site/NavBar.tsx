@@ -74,6 +74,18 @@ export function NavBar() {
   const [contactOpen, setContactOpen] = useState(false);
   const [docsAuthOpen, setDocsAuthOpen] = useState(false);
 
+  // A bounced /docs hit lands here as ?docs=1 — re-open the key modal, then strip
+  // the param so a refresh doesn't keep re-triggering it.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("docs") === "1") {
+      setDocsAuthOpen(true);
+      params.delete("docs");
+      const qs = params.toString();
+      window.history.replaceState(null, "", window.location.pathname + (qs ? `?${qs}` : ""));
+    }
+  }, []);
+
   return (
     // Outer sticky band provides top offset + side gutters so the pill floats in
     // whitespace. relative so the mobile dropdown can hang below without

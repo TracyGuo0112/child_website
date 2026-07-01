@@ -4,14 +4,14 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { surface, ink } from "@/components/palette";
 import { ACCENT } from "./accent";
+import { verifyKey, grantDocsPass } from "./docs-keys";
 
-// Docs gate. This modal never holds a valid key — it writes whatever the user
-// typed to the `docs_key` cookie, probes /docs/ (nginx maps the cookie to
-// allow/deny at the edge), and only navigates on a 200. Keeping the real check
-// server-side is the whole point: on a static export there is no runtime to
-// verify against, and any key shipped to the client would be readable in the
-// bundle. Controlled like ContactModal so NavBar can keep it mounted outside the
-// mobile dropdown, which unmounts its children on toggle.
+// Docs gate (soft, front-end only). Hashes the typed key and checks it against
+// the whitelisted hashes in docs-keys.ts — no plaintext key in the bundle. On a
+// match it stamps a session pass and navigates to /docs. This is a doorway, not
+// a lock: the PDFs stay reachable by direct URL (see docs-keys.ts). Controlled
+// like ContactModal so NavBar can keep it mounted outside the mobile dropdown,
+// which unmounts its children on toggle.
 export function DocsAuthModal({ open, onClose, onContact }: { open: boolean; onClose: () => void; onContact: () => void }) {
   const [key, setKey] = useState("");
   const [busy, setBusy] = useState(false);
@@ -35,23 +35,22 @@ export function DocsAuthModal({ open, onClose, onContact }: { open: boolean; onC
   async function submit() {
     const k = key.trim();
     if (!k || busy) return;
-    const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-    // Scope the cookie to the docs path so it rides every /docs sub-resource
-    // request (html/css/img/pdf) yet never leaks to the rest of the site.
-    document.cookie = `docs_key=${encodeURIComponent(k)}; path=${base}/docs; max-age=86400; SameSite=Lax`;
     setBusy(true);
     setError("");
     try {
-      // Same-origin, so the cookie we just set is sent automatically; nginx
-      // answers 200 (allow) / 403 (deny).
-      const res = await fetch(`${base}/docs/`, { method: "HEAD" });
-      if (res.ok) window.location.href = `${base}/docs/`;
-      else setError("appkey 无效，请确认后重试");
+      if (await verifyKey(k)) {
+        grantDocsPass();
+        const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+        window.location.href = `${base}/docs/`;
+      } else {
+        setError("appkey 无效，请确认后重试");
+        setBusy(false);
+      }
     } catch {
-      setError("网络异常，请稍后重试");
-    } finally {
+      setError("验证失败，请稍后重试");
       setBusy(false);
     }
+    // on success we navigate away, so no need to clear busy
   }
 
   if (!open) return null;

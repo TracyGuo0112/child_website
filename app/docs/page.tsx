@@ -1,17 +1,17 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useEffect, useState } from "react";
 import { surface, ink } from "@/components/palette";
 import { ACCENT } from "@/components/site/accent";
 import { cardSurface } from "@/components/site/atoms";
+import { hasDocsPass } from "@/components/site/docs-keys";
 
-export const metadata: Metadata = {
-  title: "技术文档 · 喜马拉雅儿童 SDK",
-  description: "喜马拉雅儿童 SDK 与小程序插件的接入技术文档。",
-};
-
-// Static export drops this page and the PDFs under out/docs/, so the same nginx
-// cookie gate on /docs/ guards both — the files inherit the appkey check for
-// free, no separate rule. Prefix with basePath: next/image aside, nothing else
-// prepends it, and the PDFs are plain <a> hrefs.
+// Client guard: the soft gate lives in JS, so a direct hit on /docs (no prior
+// verify this session) must bounce home and re-open the key modal — otherwise
+// typing the URL skips the doorway entirely. ?docs=1 tells NavBar to pop the
+// modal on arrival. Not real access control (see docs-keys.ts); the PDFs remain
+// URL-reachable. Metadata can't be exported from a client component, so the tab
+// title falls back to the layout default — fine for a gated utility page.
 const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 const DOCS = [
@@ -30,6 +30,21 @@ const DOCS = [
 ];
 
 export default function DocsPage() {
+  // Gate on the client: unknown until we can read sessionStorage post-mount.
+  const [allowed, setAllowed] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    if (hasDocsPass()) {
+      setAllowed(true);
+    } else {
+      // bounce home and ask NavBar to re-open the key modal
+      window.location.replace(`${base}/?docs=1`);
+    }
+  }, []);
+
+  // Render nothing until verified — avoids flashing the docs before the bounce.
+  if (allowed !== true) return null;
+
   return (
     // no background of its own — the global SiteBackground sky shows through, and
     // pt clears the sticky pill nav (this page has no hero to offset it).
