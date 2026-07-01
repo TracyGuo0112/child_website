@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { surface, ink } from "@/components/palette";
 import { ACCENT } from "./accent";
 import { NAV } from "./nav";
@@ -62,6 +63,11 @@ function useActiveSection() {
 // tablet/small-laptop visitors would have no way to reach any section.
 export function NavBar() {
   const active = useActiveSection();
+  // scroll-spy only means something on the single-page home; off-home, highlight
+  // by route instead so /docs lights up 技术文档 rather than a stale #hero.
+  const pathname = usePathname();
+  const onHome = pathname === "/";
+  const onDocs = pathname === "/docs";
   const [open, setOpen] = useState(false);
   // modal state lives here, not inside the dropdown — closing the dropdown
   // unmounts its children, which would destroy a modal opened from within
@@ -83,15 +89,19 @@ export function NavBar() {
           {NAV.map(({ label, href }) => (
             <a
               key={href}
-              href={href}
+              href={`/${href}`}
               className="cursor-pointer hover:opacity-70"
-              style={active === href ? { color: ACCENT.deep, fontWeight: 600 } : undefined}
+              style={onHome && active === href ? { color: ACCENT.deep, fontWeight: 600 } : undefined}
             >
               {label}
             </a>
           ))}
           {/* not a NAV entry — it opens the docs gate, not a hash anchor */}
-          <button className="cursor-pointer hover:opacity-70" onClick={() => setDocsAuthOpen(true)}>
+          <button
+            className="cursor-pointer hover:opacity-70"
+            onClick={() => setDocsAuthOpen(true)}
+            style={onDocs ? { color: ACCENT.deep, fontWeight: 600 } : undefined}
+          >
             技术文档
           </button>
         </div>
@@ -121,11 +131,11 @@ export function NavBar() {
           {NAV.map(({ label, href }) => (
             <a
               key={href}
-              href={href}
+              href={`/${href}`}
               className="block rounded-full px-4 py-2.5 text-sm"
               onClick={() => setOpen(false)}
               style={
-                active === href
+                onHome && active === href
                   ? { color: ACCENT.deep, fontWeight: 600, background: ACCENT.tint }
                   : { color: ink[700] }
               }
@@ -137,7 +147,7 @@ export function NavBar() {
           <button
             className="block w-full rounded-full px-4 py-2.5 text-left text-sm"
             onClick={() => { setOpen(false); setDocsAuthOpen(true); }}
-            style={{ color: ink[700] }}
+            style={onDocs ? { color: ACCENT.deep, fontWeight: 600, background: ACCENT.tint } : { color: ink[700] }}
           >
             技术文档
           </button>

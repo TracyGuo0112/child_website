@@ -30,7 +30,7 @@ export function Footer() {
           <span className="font-semibold" style={{ color: ACCENT.deep }}>{BRAND}</span>
           <nav className="flex flex-wrap gap-x-5 gap-y-2 sm:ml-auto">
             {NAV.slice(1).map(({ label, href }) => (
-              <Link key={href} href={href} className="hover:opacity-70">{label}</Link>
+              <Link key={href} href={`/${href}`} className="hover:opacity-70">{label}</Link>
             ))}
           </nav>
         </div>
