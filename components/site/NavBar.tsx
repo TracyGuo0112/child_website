@@ -6,6 +6,7 @@ import { ACCENT } from "./accent";
 import { NAV } from "./nav";
 import { Wordmark, SolidBtn } from "./atoms";
 import { ContactModal } from "./ApplyBtn";
+import { DocsAuthModal } from "./DocsAuthModal";
 
 // Crystal-glass surface, shared by the pill bar and the mobile dropdown: a
 // low-opacity white tint over a strong backdrop blur (the sky bleeds through,
@@ -65,6 +66,7 @@ export function NavBar() {
   // modal state lives here, not inside the dropdown — closing the dropdown
   // unmounts its children, which would destroy a modal opened from within
   const [contactOpen, setContactOpen] = useState(false);
+  const [docsAuthOpen, setDocsAuthOpen] = useState(false);
 
   return (
     // Outer sticky band provides top offset + side gutters so the pill floats in
@@ -88,6 +90,10 @@ export function NavBar() {
               {label}
             </a>
           ))}
+          {/* not a NAV entry — it opens the docs gate, not a hash anchor */}
+          <button className="cursor-pointer hover:opacity-70" onClick={() => setDocsAuthOpen(true)}>
+            技术文档
+          </button>
         </div>
         <div className="hidden lg:block">
           <SolidBtn onClick={() => setContactOpen(true)}>申请合作</SolidBtn>
@@ -127,6 +133,14 @@ export function NavBar() {
               {label}
             </a>
           ))}
+          {/* opening the docs gate also collapses the dropdown underneath it */}
+          <button
+            className="block w-full rounded-full px-4 py-2.5 text-left text-sm"
+            onClick={() => { setOpen(false); setDocsAuthOpen(true); }}
+            style={{ color: ink[700] }}
+          >
+            技术文档
+          </button>
           <div className="px-4 pb-1 pt-3">
             {/* opening the modal also collapses the dropdown underneath it */}
             <SolidBtn onClick={() => { setOpen(false); setContactOpen(true); }}>申请合作</SolidBtn>
@@ -135,6 +149,11 @@ export function NavBar() {
       )}
 
       <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
+      <DocsAuthModal
+        open={docsAuthOpen}
+        onClose={() => setDocsAuthOpen(false)}
+        onContact={() => { setDocsAuthOpen(false); setContactOpen(true); }}
+      />
     </div>
   );
 }
