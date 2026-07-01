@@ -7,7 +7,7 @@ import { Section } from "@/components/site/Section";
 const COMPONENTS = [
   { name: "用户信息组件", desc: "展示账号昵称、头像、会员状态" },
   { name: "搜索组件", desc: "关键词搜索儿童内容，结果展示专辑列表（封面、标题、集数、免费 / 会员标识）" },
-  { name: "分类组件", desc: "故事、儿歌、科普、国学等分类入口" },
+  { name: "分类组件", desc: "儿童英语、科普百科、经典名著、家长课堂、侦探冒险、校园成长、卡通动画等分类入口" },
   { name: "排行榜", desc: "热门内容榜单" },
   { name: "N×N 卡片位", desc: "专辑 / 内容卡片宫格展示" },
   { name: "收听历史", desc: "用户最近收听记录" },

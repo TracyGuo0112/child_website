@@ -60,7 +60,7 @@ export function OverviewSection() {
             ))}
           </ul>
           <p className="mt-5 text-sm font-semibold leading-relaxed" style={{ color: pastels.sage.deep }}>
-            设备端 SDK 资源需求：RAM 80KB，ROM 80KB，代码 80KB
+            设备端 SDK 资源需求：RAM 80KB，ROM 80KB
           </p>
         </div>
         <div className="rounded-lg p-7" style={cardSurface}>

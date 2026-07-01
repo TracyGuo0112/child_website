@@ -41,7 +41,7 @@ export function DocsAuthModal({ open, onClose, onContact }: { open: boolean; onC
       if (await verifyKey(k)) {
         grantDocsPass();
         const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-        window.location.href = `${base}/docs/`;
+        window.location.href = `${base}/docs`;
       } else {
         setError("appkey 无效，请确认后重试");
         setBusy(false);
