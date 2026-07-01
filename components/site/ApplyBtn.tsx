@@ -40,7 +40,7 @@ export function ContactModal({ open, onClose }: { open: boolean; onClose: () => 
       aria-label="申请合作联系方式"
     >
       <div
-        className="relative max-h-[85vh] w-full max-w-xs overflow-y-auto rounded-3xl px-8 pb-8 pt-10 text-center shadow-2xl"
+        className="relative max-h-[85vh] w-full max-w-xs overflow-y-auto rounded-lg px-8 pb-8 pt-10 text-center shadow-2xl"
         // pure white, not the ivory card surface — the QR screenshot has a
         // white background and would show as a mismatched patch on ivory
         style={{ background: "#FFFFFF" }}

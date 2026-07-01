@@ -39,7 +39,7 @@ export function ToySection() {
     >
       <div className="grid gap-4 sm:grid-cols-2">
         {ABILITIES.map((a) => (
-          <div key={a.name} className="rounded-2xl p-6" style={cardSurface}>
+          <div key={a.name} className="rounded-lg p-6" style={cardSurface}>
             <span
               className="inline-block rounded-full px-3 py-1 text-xs font-semibold"
               style={{ background: a.c.tint, color: a.c.deep }}
@@ -51,22 +51,22 @@ export function ToySection() {
         ))}
       </div>
 
-      <h3 className="mt-14 text-xl font-semibold tracking-tight" style={{ color: ink[900] }}>
+      <h3 className="mt-14 text-xl font-semibold" style={{ color: ink[900] }}>
         鉴权模式 · 双凭证机制
       </h3>
       <div className="mt-5 grid gap-4 sm:grid-cols-2">
         {CREDENTIALS.map((c) => (
-          <div key={c.name} className="rounded-2xl p-6" style={cardSurface}>
+          <div key={c.name} className="rounded-lg p-6" style={cardSurface}>
             <h4 className="text-sm font-semibold" style={{ color: ink[900] }}>{c.name}</h4>
             <p className="mt-1.5 text-sm leading-relaxed" style={{ color: ink[700] }}>{c.desc}</p>
           </div>
         ))}
       </div>
 
-      <h3 className="mt-14 text-xl font-semibold tracking-tight" style={{ color: ink[900] }}>
+      <h3 className="mt-14 text-xl font-semibold" style={{ color: ink[900] }}>
         典型语音调用链路
       </h3>
-      <div className="mx-auto mt-5 max-w-3xl rounded-3xl p-6 sm:p-10" style={cardSurface}>
+      <div className="mx-auto mt-5 max-w-3xl rounded-lg p-6 sm:p-10" style={cardSurface}>
         <Image
           src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/diagrams/voice-flow.png`}
           alt="语音调用链路：用户语音点播 → 第三方 ASR → NLP/NLU 解析意图 → 喜马服务端搜索鉴权取音频 → 设备端 SDK 解密播放 → 上报播放记录"

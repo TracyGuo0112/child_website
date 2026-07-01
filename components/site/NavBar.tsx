@@ -70,14 +70,14 @@ export function NavBar() {
     // Outer sticky band provides top offset + side gutters so the pill floats in
     // whitespace. relative so the mobile dropdown can hang below without
     // stretching the sticky element (which would shift page flow).
-    <div className="relative sticky top-0 z-50 px-6 pt-4 sm:px-10">
+    <div className="relative sticky top-0 z-50 px-5 pt-3 sm:px-8">
       <nav
-        className="mx-auto flex max-w-7xl items-center gap-8 rounded-full px-7 py-3 backdrop-blur-md sm:px-9"
+        className="mx-auto flex max-w-6xl items-center gap-6 rounded-full px-5 py-2.5 backdrop-blur-md sm:px-7"
         style={glass}
       >
         <Wordmark />
         {/* nav links + CTA grouped to the right — kills the empty middle gap */}
-        <div className="ml-auto hidden items-center gap-6 text-sm lg:flex" style={{ color: ink[700] }}>
+        <div className="ml-auto hidden items-center gap-5 text-[13px] lg:flex" style={{ color: ink[700] }}>
           {NAV.map(({ label, href }) => (
             <a
               key={href}
@@ -108,7 +108,7 @@ export function NavBar() {
 
       {open && (
         <div
-          className="absolute inset-x-6 top-full mt-2 rounded-3xl px-3 py-3 backdrop-blur-xl sm:inset-x-10 lg:hidden"
+          className="absolute inset-x-5 top-full mt-2 rounded-lg px-3 py-3 backdrop-blur-xl sm:inset-x-8 lg:hidden"
           // more opaque than the bar — links need a readable surface, not pure sky
           style={{ ...glass, background: `${surface.raised}e6` }}
         >

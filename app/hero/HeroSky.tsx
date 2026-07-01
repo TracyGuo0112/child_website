@@ -87,9 +87,11 @@ function RainbowRibbons() {
 
 export function HeroSky() {
   return (
-    <section id="hero" className="relative min-h-screen overflow-hidden">
+    <section id="hero" className="relative min-h-[560px] overflow-hidden sm:min-h-[calc(100svh-5.25rem)] lg:min-h-[540px]">
       {/* refracted rainbow light, behind the blob (top-right) and subtitle (bottom-left) */}
       <RainbowRibbons />
+
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-[64%] bg-gradient-to-r from-white/45 via-white/20 to-transparent" />
 
       {/* blob sits under the right half of the nav (centerX ≈ 69%), behind
           the copy. resolution 60 overrides HeroBlob's perf default of 44 so the
@@ -97,7 +99,7 @@ export function HeroSky() {
           on the CPU, and 72 cost ~70% more than 60 for no visible difference;
           the material override deepens transmission + iridescence for the dewy
           candy look of the reference. */}
-      <div className="pointer-events-none absolute left-[69.4%] top-[48%] hidden h-[84%] w-[52%] -translate-x-1/2 -translate-y-1/2 lg:block">
+      <div className="pointer-events-none absolute left-[72%] top-[50%] hidden h-[76%] w-[46%] -translate-x-1/2 -translate-y-1/2 lg:block">
         <HeroBlob
           cameraZ={2.3}
           className="absolute inset-0"
@@ -116,26 +118,33 @@ export function HeroSky() {
       </div>
 
       {/* copy — nudged up ~5 line-units from dead-centre for a higher-anchored hero */}
-      <div className="relative z-10 flex min-h-screen flex-col justify-center pl-[8%] pr-6 -translate-y-12">
-        <h1
-          className="font-bold text-4xl sm:text-5xl xl:text-6xl"
-          // line-height set inline: Tailwind's text-Nxl utilities ship their own
-          // line-height (xl:text-6xl forces 1), which overrides any leading-* class.
-          style={{ color: ink[900], fontFamily: "var(--font-noto-serif-sc)", letterSpacing: "0.02em", lineHeight: 1.2 }}
-        >
-          把喜马拉雅内容，
-          <br />
-          带进每一台儿童终端
-        </h1>
+      <div className="relative z-10 mx-auto grid min-h-[560px] max-w-6xl items-center px-6 py-10 sm:min-h-[calc(100svh-5.25rem)] sm:px-8 sm:py-14 lg:min-h-[540px] lg:grid-cols-[0.98fr_1.02fr] lg:px-10 lg:py-10">
+        <div className="max-w-2xl">
+          <p className="mb-5 text-sm font-semibold" style={{ color: ink[700] }}>
+            AI 玩具内容接入方案
+          </p>
+          <h1
+            className="font-bold text-[2.45rem] leading-tight sm:text-[3.1rem] xl:text-[3.55rem]"
+            // line-height set inline: Tailwind's text-Nxl utilities ship their own
+            // line-height, which can override leading-* classes.
+            style={{ color: ink[900], fontFamily: "var(--font-noto-serif-sc)", letterSpacing: 0, lineHeight: 1.14 }}
+          >
+            <span className="block sm:whitespace-nowrap">把喜马拉雅内容，</span>
+            <span className="block sm:whitespace-nowrap">
+              带进每一台
+              <span className="block sm:inline">儿童终端</span>
+            </span>
+          </h1>
 
-        {/* the three hand-balanced line breaks only hold above sm — on phones the
-            lines re-wrap anyway and forcing them produces ragged 6-line copy */}
-        <p className="mt-10 ml-[7px] max-w-md text-sm leading-7 sm:whitespace-pre-line" style={{ color: ink[700] }}>
-          {SUBCOPY.join("\n")}
-        </p>
+          {/* the three hand-balanced line breaks only hold above sm — on phones the
+              lines re-wrap anyway and forcing them produces ragged 6-line copy */}
+          <p className="mt-7 max-w-lg text-[15px] leading-7 sm:whitespace-pre-line" style={{ color: ink[700] }}>
+            {SUBCOPY.join("\n")}
+          </p>
 
-        <div className="mt-12 flex items-center gap-3">
-          <SolidBtn href="#process">了解合作流程</SolidBtn>
+          <div className="mt-9 flex items-center gap-3">
+            <SolidBtn href="#process" size="lg">了解合作流程</SolidBtn>
+          </div>
         </div>
       </div>
     </section>

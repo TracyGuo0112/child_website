@@ -28,7 +28,7 @@ export function ConstraintsSection() {
     >
       <div className="flex flex-col gap-3">
         {CONSTRAINTS.map((c, i) => (
-          <div key={c.name} className="flex items-start gap-4 rounded-2xl p-6" style={cardSurface}>
+          <div key={c.name} className="flex items-start gap-4 rounded-lg p-6" style={cardSurface}>
             <span
               className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-semibold tabular-nums"
               style={{ background: pastels.blush.tint, color: pastels.blush.deep }}
@@ -43,7 +43,7 @@ export function ConstraintsSection() {
         ))}
       </div>
 
-      <h3 className="mt-14 text-xl font-semibold tracking-tight" style={{ color: ink[900] }}>
+      <h3 className="mt-14 text-xl font-semibold" style={{ color: ink[900] }}>
         数据看板
       </h3>
       <p className="mt-2 text-sm leading-relaxed" style={{ color: ink[700] }}>
@@ -51,7 +51,7 @@ export function ConstraintsSection() {
       </p>
       <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {METRICS.map((m) => (
-          <div key={m.name} className="rounded-2xl p-6" style={cardSurface}>
+          <div key={m.name} className="rounded-lg p-6" style={cardSurface}>
             <span
               className="inline-block rounded-full px-3 py-1 text-xs font-semibold"
               style={{ background: m.c.tint, color: m.c.deep }}

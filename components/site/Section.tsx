@@ -10,19 +10,19 @@ export function Section({
   children,
 }: {
   id: string;
-  title: string;
+  title: React.ReactNode;
   lead?: string;
   children?: React.ReactNode;
 }) {
   return (
-    <section id={id} className="relative scroll-mt-24">
-      <div className="mx-auto max-w-5xl px-6 py-16 sm:px-10">
-        <header className="mb-12">
-          <h2 className="text-3xl font-semibold tracking-tight lg:text-4xl" style={{ color: ink[900] }}>
+    <section id={id} className="relative scroll-mt-20">
+      <div className="mx-auto max-w-6xl px-6 py-20 sm:px-8 lg:px-10">
+        <header className="mb-10 grid gap-4 lg:mb-12 lg:grid-cols-[0.38fr_0.62fr] lg:items-end">
+          <h2 className="max-w-lg text-3xl font-semibold leading-tight lg:text-4xl" style={{ color: ink[900] }}>
             {title}
           </h2>
           {lead && (
-            <p className="mt-4 max-w-2xl text-base leading-relaxed" style={{ color: ink[700] }}>
+            <p className="max-w-3xl text-base leading-relaxed lg:justify-self-end" style={{ color: ink[700] }}>
               {lead}
             </p>
           )}

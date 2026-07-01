@@ -23,12 +23,17 @@ export function OverviewSection() {
   return (
     <Section
       id="overview"
-      title="面向 AI 玩具厂商开放内容能力"
+      title={
+        <>
+          <span className="block">面向 AI 玩具厂商</span>
+          <span className="mt-1 block">开放内容能力</span>
+        </>
+      }
       lead="喜马拉雅儿童内容生态面向 AI 玩具厂商开放内容能力。本方案用于评估接入价值与技术成本；完整接口文档、SDK 集成手册及加密对接规范，将在签署合作协议后提供。"
     >
       <div className="grid gap-6 sm:grid-cols-2">
         {VALUES.map((v) => (
-          <div key={v.title} className="rounded-2xl p-7" style={cardSurface}>
+          <div key={v.title} className="rounded-lg p-7" style={cardSurface}>
             <span
               className="inline-block rounded-full px-3 py-1 text-xs font-semibold"
               style={{ background: v.c.tint, color: v.c.deep }}
@@ -40,12 +45,12 @@ export function OverviewSection() {
         ))}
       </div>
 
-      <h3 className="mt-14 text-xl font-semibold tracking-tight" style={{ color: ink[900] }}>
+      <h3 className="mt-14 text-xl font-semibold" style={{ color: ink[900] }}>
         适用设备类型
       </h3>
       <p className="mt-2 text-sm" style={{ color: ink[500] }}>* SDK 支持各类芯片平台，不依赖芯片底层架构</p>
       <div className="mt-5 grid gap-6 sm:grid-cols-2">
-        <div className="rounded-2xl p-7" style={cardSurface}>
+        <div className="rounded-lg p-7" style={cardSurface}>
           <div className="text-sm font-semibold" style={{ color: pastels.sage.deep }}>✓ 适用</div>
           <ul className="mt-4 space-y-2.5">
             {FIT.map((d) => (
@@ -54,8 +59,11 @@ export function OverviewSection() {
               </li>
             ))}
           </ul>
+          <p className="mt-5 text-sm font-semibold leading-relaxed" style={{ color: pastels.sage.deep }}>
+            设备端 SDK 资源需求：RAM 80KB，ROM 80KB，代码 80KB
+          </p>
         </div>
-        <div className="rounded-2xl p-7" style={cardSurface}>
+        <div className="rounded-lg p-7" style={cardSurface}>
           <div className="text-sm font-semibold" style={{ color: ink[500] }}>✕ 不适用</div>
           <ul className="mt-4 space-y-2.5">
             {UNFIT.map((d) => (

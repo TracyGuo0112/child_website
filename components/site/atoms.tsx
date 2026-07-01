@@ -11,7 +11,7 @@ import { BRAND } from "./nav";
 // Logo + wordmark, links home. The mascot PNG is pre-cut (yellow bg removed).
 export function Wordmark({ color = ink[900] }: { color?: string }) {
   return (
-    <Link href="#hero" className="inline-flex items-center gap-2 whitespace-nowrap text-base font-semibold tracking-tight" style={{ color }}>
+    <Link href="#hero" className="inline-flex items-center gap-2 whitespace-nowrap text-base font-semibold" style={{ color }}>
       <Image src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/brand/mascot-logo.png`} alt="" width={36} height={36} className="h-9 w-9 object-contain" priority />
       {BRAND}
     </Link>
@@ -35,7 +35,7 @@ export function SolidBtn({
   fg?: string;
   size?: "sm" | "lg";
 }) {
-  const pad = size === "lg" ? "px-7 py-3.5 text-base" : "px-6 py-3 text-sm";
+  const pad = size === "lg" ? "px-7 py-3.5 text-base" : "px-5 py-2.5 text-sm";
   const cls = `inline-block whitespace-nowrap rounded-full font-semibold transition-transform hover:-translate-y-0.5 ${pad}`;
   const style = { background: bg, color: fg };
   if (href) {
@@ -55,6 +55,7 @@ export function LineBtn({ children, href, color = ink[900] }: { children: React.
 
 // Shared lifted-card surface — the one card look every content page uses.
 export const cardSurface = {
-  background: surface.raised,
-  border: `1px solid ${ink.line}`,
+  background: `${surface.raised}d9`,
+  border: `1px solid ${surface.raised}cc`,
+  boxShadow: `0 18px 44px -34px ${ink[900]}99, inset 0 1px 0 ${surface.raised}`,
 } as const;

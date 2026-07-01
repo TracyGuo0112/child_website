@@ -36,12 +36,17 @@ export function ArchitectureSection() {
   return (
     <Section
       id="architecture"
-      title="两个子系统，一套账号体系"
+      title={
+        <>
+          <span className="block">两个子系统</span>
+          <span className="mt-1 block">一套账号体系</span>
+        </>
+      }
       lead="方案由两个子系统组成，共用同一套喜马拉雅账号体系——家长端登录的账号，即为玩具端播放内容所使用的账号。"
     >
       <div className="grid gap-6 sm:grid-cols-2">
         {SUBSYSTEMS.map((s) => (
-          <div key={s.name} className="rounded-2xl p-7" style={cardSurface}>
+          <div key={s.name} className="rounded-lg p-7" style={cardSurface}>
             <div className="flex items-center gap-3">
               <span
                 className="rounded-full px-3 py-1 text-xs font-semibold"
@@ -58,7 +63,7 @@ export function ArchitectureSection() {
       </div>
 
       {/* 架构总览图（取自方案文档），白卡承托让透明底图在 sky 背景上可读 */}
-      <div className="mx-auto mt-10 max-w-2xl rounded-3xl p-6 sm:p-10" style={cardSurface}>
+      <div className="mx-auto mt-10 max-w-2xl rounded-lg p-6 sm:p-10" style={cardSurface}>
         <Image
           src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/diagrams/architecture.png`}
           alt="整体架构图：用户层（家长 / 儿童）→ 客户端层（家长端 H5 / 玩具端 AI）→ 第三方实现层与喜马拉雅服务端"
@@ -68,7 +73,7 @@ export function ArchitectureSection() {
         />
       </div>
 
-      <h3 className="mt-14 text-xl font-semibold tracking-tight" style={{ color: ink[900] }}>
+      <h3 className="mt-14 text-xl font-semibold" style={{ color: ink[900] }}>
         双方职责边界
       </h3>
       <p className="mt-2 text-sm" style={{ color: ink[500] }}>* 具体技术细节见技术文档</p>
@@ -77,7 +82,7 @@ export function ArchitectureSection() {
           也避免表格自动列宽把窄列挤到换行 */}
       <div className="mt-5 space-y-3">
         {DUTIES.map((d) => (
-          <div key={d.module} className="rounded-2xl p-6 sm:flex sm:items-baseline sm:gap-6" style={cardSurface}>
+          <div key={d.module} className="rounded-lg p-6 sm:flex sm:items-baseline sm:gap-6" style={cardSurface}>
             <div className="shrink-0 sm:w-32">
               <span
                 className="inline-block whitespace-nowrap rounded-full px-3 py-1 text-xs font-semibold"
