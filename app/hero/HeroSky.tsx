@@ -87,7 +87,7 @@ function RainbowRibbons() {
 
 export function HeroSky() {
   return (
-    <section id="hero" className="relative min-h-[560px] overflow-hidden sm:min-h-[calc(100svh-5.25rem)] lg:min-h-[540px]">
+    <section id="hero" className="relative -mt-[4.25rem] min-h-[100svh] overflow-hidden pt-[4.25rem] lg:-mt-[4.5rem] lg:min-h-[100svh] lg:pt-[4.5rem]">
       {/* refracted rainbow light, behind the blob (top-right) and subtitle (bottom-left) */}
       <RainbowRibbons />
 
@@ -117,12 +117,9 @@ export function HeroSky() {
         />
       </div>
 
-      {/* copy — nudged up ~5 line-units from dead-centre for a higher-anchored hero */}
-      <div className="relative z-10 mx-auto grid min-h-[560px] max-w-6xl items-center px-6 py-10 sm:min-h-[calc(100svh-5.25rem)] sm:px-8 sm:py-14 lg:min-h-[540px] lg:grid-cols-[0.98fr_1.02fr] lg:px-10 lg:py-10">
+      {/* copy — hero owns the first viewport, with the next section starting below it */}
+      <div className="relative z-10 mx-auto grid min-h-[calc(100svh-4.25rem)] max-w-6xl items-center px-6 py-10 sm:px-8 sm:py-14 lg:min-h-[calc(100svh-4.5rem)] lg:grid-cols-[0.98fr_1.02fr] lg:px-10 lg:py-10">
         <div className="max-w-2xl">
-          <p className="mb-5 text-sm font-semibold" style={{ color: ink[700] }}>
-            AI 玩具内容接入方案
-          </p>
           <h1
             className="font-bold text-[2.45rem] leading-tight sm:text-[3.1rem] xl:text-[3.55rem]"
             // line-height set inline: Tailwind's text-Nxl utilities ship their own
