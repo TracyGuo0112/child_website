@@ -108,10 +108,11 @@ export function NavBar() {
               {label}
             </a>
           ))}
-          {/* not a NAV entry — it opens the docs gate, not a hash anchor */}
+          {/* not a NAV entry — it opens the docs gate, not a hash anchor. Already
+              on /docs: no-op, no point re-gating what you're looking at. */}
           <button
             className="cursor-pointer hover:opacity-70"
-            onClick={() => setDocsAuthOpen(true)}
+            onClick={() => { if (!onDocs) setDocsAuthOpen(true); }}
             style={onDocs ? { color: ACCENT.deep, fontWeight: 600 } : undefined}
           >
             技术文档
@@ -158,7 +159,7 @@ export function NavBar() {
           {/* opening the docs gate also collapses the dropdown underneath it */}
           <button
             className="block w-full rounded-full px-4 py-2.5 text-left text-sm"
-            onClick={() => { setOpen(false); setDocsAuthOpen(true); }}
+            onClick={() => { setOpen(false); if (!onDocs) setDocsAuthOpen(true); }}
             style={onDocs ? { color: ACCENT.deep, fontWeight: 600, background: ACCENT.tint } : { color: ink[700] }}
           >
             技术文档
