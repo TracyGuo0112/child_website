@@ -1,36 +1,187 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 喜马拉雅儿童 SDK 说明文档
 
-## Getting Started
+这是面向第三方 AI 玩具厂商的喜马拉雅儿童内容接入说明站。页面用于对外介绍接入方案、家长端能力、玩具端 SDK 能力、合作流程，并提供需要 appkey 才能进入的技术文档页。
 
-First, run the development server:
+当前项目以静态站点方式部署到 nginx 子路径：
+
+- 正式入口：[https://api.ximalaya.com/xmly-iot-api/device/url/doc/children-sdk](https://api.ximalaya.com/xmly-iot-api/device/url/doc/children-sdk)
+- 正式站点实际路径：`http://120.48.82.100:8889/child_website/`
+- v2 验证路径：`http://120.48.82.100:8889/child_website_v2/`
+
+## 技术栈
+
+- Next.js 14 App Router
+- React 18 + TypeScript
+- Tailwind CSS
+- Three.js / React Three Fiber，用于首页的 3D 果冻团子视觉
+- `output: "export"` 静态导出，发布产物在 `out/`
+
+## 本地开发
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+本地访问：
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```text
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+本地开发时没有 basePath，路由直接是 `/`、`/docs`、`/blobs`。
 
-## Learn More
+## 常用命令
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+# 本地开发
+npm run dev
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# 构建正式站点，默认 basePath 为 /child_website
+npm run build
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# 构建 v2 验证站点
+DEPLOY_BASE_PATH=/child_website_v2 npm run build
+```
 
-## Deploy on Vercel
+构建时会把 basePath 写进静态资源和页面链接。正式站和 v2 站必须分别构建，不能复用同一个 `out/`。
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 目录结构
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```text
+app/
+  page.tsx                 首页，按锚点串起各章节
+  docs/page.tsx            技术文档入口页
+  sections/                首页各方案章节
+  hero/                    首页首屏视觉
+
+components/
+  site/                    导航、页脚、背景、按钮、文档弹窗
+  blobs/                   3D 果冻团子核心实现
+  hero-blob/               团子在页面中的轻封装
+  palette/                 UI 配色 token
+
+public/
+  brand/                   logo、商务二维码
+  diagrams/                架构图和流程图
+  docs/                    可下载 PDF 文档
+```
+
+## 页面与内容
+
+- 首页章节顺序由 `app/page.tsx` 和 `components/site/nav.ts` 共同决定。
+- 导航锚点对应各 section 的 `id`，例如 `#overview`、`#architecture`、`#parent`。
+- 商务二维码弹窗在 `components/site/ApplyBtn.tsx`。
+- 当前商务二维码使用 `public/brand/bd-wechat.jpg`。
+- `public/brand/bd-wechat.png` 是之前的袁敏二维码，保留在仓库里但当前页面不引用。
+
+## 技术文档页
+
+技术文档页位于 `/docs`，当前展示两份 PDF：
+
+- `public/docs/xmly-sdk-c-v2.2.pdf`
+- `public/docs/xmly-miniapp-v2.1.pdf`
+
+文档列表和版本号在 `app/docs/page.tsx` 中维护。
+
+`/docs` 有一个前端 appkey 轻校验：
+
+- 校验逻辑在 `components/site/docs-keys.ts`。
+- 代码里只保存 appkey 的 SHA-256 hash，不保存原始 appkey。
+- 通过校验后会在当前浏览器会话里写入 `sessionStorage.docs_ok`。
+- 这是前端软门禁，不是真正的访问控制；`public/docs` 下的 PDF 仍可通过直接 URL 访问。
+
+新增厂商 appkey 时，只提交 hash，不要把原始 appkey 写进代码、README、issue 或 PR。
+
+可以在本地生成 hash：
+
+```bash
+node -e "const crypto=require('crypto'); console.log(crypto.createHash('sha256').update(process.argv[1], 'utf8').digest('hex'))" "这里放 appkey"
+```
+
+然后把结果追加到 `components/site/docs-keys.ts` 的 `KEY_HASHES`。
+
+## 替换资源
+
+### 替换商务二维码
+
+1. 替换或新增 `public/brand/bd-wechat.jpg`。
+2. 如果图片尺寸变化，同步修改 `components/site/ApplyBtn.tsx` 里的 `width` 和 `height`。
+3. 执行 `npm run build`。
+4. 部署到目标路径并校验线上图片地址。
+
+### 替换 PDF
+
+1. 把 PDF 放到 `public/docs/`。
+2. 更新 `app/docs/page.tsx` 中的 `meta` 和 `file`。
+3. 如果旧 PDF 不再使用，从 `public/docs/` 删除。
+4. 执行对应路径的构建和部署。
+
+## 部署
+
+当前部署方式是构建静态文件，然后上传到服务器版本目录，最后切换 `current` 软链接。
+
+### 正式站 `/child_website`
+
+```bash
+npm run build
+
+VERSION=child_website-$(date +%Y%m%d%H%M%S)
+ssh root@120.48.82.100 "mkdir -p /usr/share/nginx/html/child_website/$VERSION"
+rsync -az --delete out/ root@120.48.82.100:/usr/share/nginx/html/child_website/$VERSION/
+ssh root@120.48.82.100 "ln -sfn /usr/share/nginx/html/child_website/$VERSION /usr/share/nginx/html/child_website/current"
+```
+
+校验：
+
+```bash
+curl -I -L https://api.ximalaya.com/xmly-iot-api/device/url/doc/children-sdk
+curl -I http://120.48.82.100:8889/child_website/brand/bd-wechat.jpg
+```
+
+正式入口会 302 到 `http://120.48.82.100:8889/child_website/#hero`。
+
+### v2 站 `/child_website_v2`
+
+```bash
+DEPLOY_BASE_PATH=/child_website_v2 npm run build
+
+VERSION=child_website_v2-$(date +%Y%m%d%H%M%S)
+ssh root@120.48.82.100 "mkdir -p /usr/share/nginx/html/child_website_v2/$VERSION"
+rsync -az --delete out/ root@120.48.82.100:/usr/share/nginx/html/child_website_v2/$VERSION/
+ssh root@120.48.82.100 "ln -sfn /usr/share/nginx/html/child_website_v2/$VERSION /usr/share/nginx/html/child_website_v2/current"
+```
+
+校验：
+
+```bash
+curl -I -L http://120.48.82.100:8889/child_website_v2/
+```
+
+### 回滚
+
+服务器会保留历史版本目录。需要回滚时，把 `current` 重新指向旧版本：
+
+```bash
+ssh root@120.48.82.100 "ln -sfn /usr/share/nginx/html/child_website/旧版本目录 /usr/share/nginx/html/child_website/current"
+```
+
+v2 站同理替换为 `/usr/share/nginx/html/child_website_v2/...`。
+
+## 路径配置说明
+
+`next.config.mjs` 当前以 nginx 子路径部署为准：
+
+- 生产默认：`/child_website`
+- v2 覆盖：`DEPLOY_BASE_PATH=/child_website_v2`
+- 本地开发：空 basePath
+
+如果要改成 Vercel 根路径或其他根路径部署，需要先调整 `next.config.mjs`，并重新检查所有使用 `NEXT_PUBLIC_BASE_PATH` 的图片和链接。
+
+## 维护注意事项
+
+- 不要提交原始 appkey。
+- 不要把 `out/`、`.next/`、`node_modules/` 提交进仓库。
+- 改导航时同时检查桌面导航、移动端导航和页脚导航。
+- 改资源路径后一定要重新构建；静态导出会把路径写进生成后的 JS。
+- 文档页门禁只是轻校验，不适合承载高敏感资料。
