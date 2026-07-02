@@ -23,9 +23,9 @@ const DOCS = [
   },
   {
     title: "喜马拉雅小程序插件",
-    meta: "v2.0 · PDF · 8 页",
+    meta: "v2.1 · PDF · 8 页",
     desc: "小程序插件的引入与接入说明。",
-    file: `${base}/docs/xmly-miniapp-v2.0.pdf`,
+    file: `${base}/docs/xmly-miniapp-v2.1.pdf`,
   },
 ];
 

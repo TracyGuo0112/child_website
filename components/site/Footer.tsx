@@ -2,12 +2,13 @@ import { surface, ink } from "@/components/palette";
 import { ACCENT } from "./accent";
 import { BRAND, NAV } from "./nav";
 import { ApplyBtn } from "./ApplyBtn";
-import Link from "next/link";
 
 // Site footer with a closing call-to-action. Server component — imports atoms /
 // data by path, not via the barrel, to stay off the client bundle. Translucent
 // ivory glass so the fixed sky backdrop reads softly through the closing band.
 export function Footer() {
+  const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
   return (
     <footer
       className="relative backdrop-blur-xl"
@@ -30,7 +31,7 @@ export function Footer() {
           <span className="font-semibold" style={{ color: ACCENT.deep }}>{BRAND}</span>
           <nav className="flex flex-wrap gap-x-5 gap-y-2 sm:ml-auto">
             {NAV.slice(1).map(({ label, href }) => (
-              <Link key={href} href={`/${href}`} className="hover:opacity-70">{label}</Link>
+              <a key={href} href={`${base}/${href}`} className="hover:opacity-70">{label}</a>
             ))}
           </nav>
         </div>

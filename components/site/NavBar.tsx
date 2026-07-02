@@ -63,6 +63,7 @@ function useActiveSection() {
 // tablet/small-laptop visitors would have no way to reach any section.
 export function NavBar() {
   const active = useActiveSection();
+  const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
   // scroll-spy only means something on the single-page home; off-home, highlight
   // by route instead so /docs lights up 技术文档 rather than a stale #hero.
   const pathname = usePathname();
@@ -101,7 +102,7 @@ export function NavBar() {
           {NAV.map(({ label, href }) => (
             <a
               key={href}
-              href={`/${href}`}
+              href={`${base}/${href}`}
               className="cursor-pointer hover:opacity-70"
               style={onHome && active === href ? { color: ACCENT.deep, fontWeight: 600 } : undefined}
             >
@@ -144,7 +145,7 @@ export function NavBar() {
           {NAV.map(({ label, href }) => (
             <a
               key={href}
-              href={`/${href}`}
+              href={`${base}/${href}`}
               className="block rounded-full px-4 py-2.5 text-sm"
               onClick={() => setOpen(false)}
               style={
