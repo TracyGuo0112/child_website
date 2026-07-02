@@ -62,9 +62,9 @@ export function ContactModal({ open, onClose }: { open: boolean; onClose: () => 
 
         {/* QR screenshot already carries its own name header + scan hint */}
         <Image
-          src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/brand/bd-wechat.png`}
+          src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/brand/bd-wechat.jpg`}
           alt="商务微信二维码"
-          width={968}
+          width={924}
           height={1433}
           className="mx-auto mt-4 w-full rounded-xl"
         />
