@@ -15,7 +15,7 @@ export function Section({
   children?: React.ReactNode;
 }) {
   return (
-    <section id={id} className="relative scroll-mt-20">
+    <section id={id} className="relative scroll-mt-28">
       <div className="mx-auto max-w-6xl px-6 py-20 sm:px-8 lg:px-10">
         <header className="mb-10 grid gap-4 lg:mb-12 lg:grid-cols-[0.38fr_0.62fr] lg:items-end">
           <h2 className="max-w-lg text-3xl font-semibold leading-tight lg:text-4xl" style={{ color: ink[900] }}>

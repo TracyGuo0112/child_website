@@ -48,7 +48,7 @@ export default function DocsPage() {
   return (
     // no background of its own — the global SiteBackground sky shows through, and
     // pt clears the sticky pill nav (this page has no hero to offset it).
-    <main className="min-h-screen px-6 pb-24 pt-28 sm:px-8">
+    <main className="min-h-screen px-6 pb-24 pt-20 sm:px-8">
       <header className="mx-auto mb-12 max-w-3xl text-center">
         <h1 className="text-3xl font-semibold tracking-tight lg:text-4xl" style={{ color: ink[900] }}>
           技术文档

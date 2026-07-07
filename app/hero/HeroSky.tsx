@@ -87,7 +87,10 @@ function RainbowRibbons() {
 
 export function HeroSky() {
   return (
-    <section id="hero" className="relative -mt-[4.25rem] min-h-[100svh] overflow-hidden pt-[4.25rem] lg:-mt-[4.5rem] lg:min-h-[100svh] lg:pt-[4.5rem]">
+    // -mt/pt must cover the full nav band (NavBar outer pt + pill height) so the
+    // hero scene reaches the viewport top with no seam — keep in sync with
+    // NavBar's pt and the inner min-h calc below.
+    <section id="hero" className="relative -mt-[6.25rem] min-h-[100svh] overflow-hidden pt-[6.25rem]">
       {/* refracted rainbow light, behind the blob (top-right) and subtitle (bottom-left) */}
       <RainbowRibbons />
 
@@ -118,7 +121,7 @@ export function HeroSky() {
       </div>
 
       {/* copy — hero owns the first viewport, with the next section starting below it */}
-      <div className="relative z-10 mx-auto grid min-h-[calc(100svh-4.25rem)] max-w-6xl items-center px-6 py-10 sm:px-8 sm:py-14 lg:min-h-[calc(100svh-4.5rem)] lg:grid-cols-[0.98fr_1.02fr] lg:px-10 lg:py-10">
+      <div className="relative z-10 mx-auto grid min-h-[calc(100svh-6rem)] max-w-6xl items-center px-6 py-10 sm:px-8 sm:py-14 lg:min-h-[calc(100svh-6.25rem)] lg:grid-cols-[0.98fr_1.02fr] lg:px-10 lg:py-10">
         <div className="max-w-2xl">
           <h1
             className="font-bold text-[2.45rem] leading-tight sm:text-[3.1rem] xl:text-[3.55rem]"
@@ -140,7 +143,7 @@ export function HeroSky() {
           </p>
 
           <div className="mt-9 flex items-center gap-3">
-            <SolidBtn href="#process" size="lg">了解合作流程</SolidBtn>
+            <SolidBtn href="/faq" size="lg">了解高频问题</SolidBtn>
           </div>
         </div>
       </div>
