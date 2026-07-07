@@ -10,6 +10,7 @@ const KEY_HASHES = new Set([
   "5b459e984c89f5d2d603ebe18602ced173b02ef00ab74ab7098f47e8dfca6774", // 可豆陪陪
   "630f24c4857655e40fce1707a8543a822916ca84524f073943fe8cc1d262c235", // 二元魂
   "c3977dc1bef9d160f5ad23588bf04a629cc3b3fa238ae5012bc522d7fc75f467", // 迷你心
+  "2c01a13c0f00d14184947d49626b0f92edc1db049611137033804c34773b9c99", // 智核星
 ]);
 
 const PASS_KEY = "docs_ok";
