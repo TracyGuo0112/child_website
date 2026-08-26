@@ -34,8 +34,33 @@ export function ParentSection() {
       title="管内容、管会员、管续费"
       lead="喜马提供主内容 H5 与会员激活 H5，厂商以 WebView / 小程序插件嵌入。内容首页由喜马拉雅 IOT 运营平台统一编排，运营调整组件组合、排序及参数，前端无需发版。"
     >
+      {/* H5 产品示意视频 */}
+      <div className="rounded-lg p-6 sm:p-8" style={cardSurface}>
+        <div className="grid gap-6 lg:grid-cols-[0.42fr_0.58fr] lg:items-center">
+          <div>
+            <h3 className="text-xl font-semibold" style={{ color: ink[900] }}>
+              H5 产品示意
+            </h3>
+            <p className="mt-2 text-sm leading-relaxed" style={{ color: ink[700] }}>
+              展示内容首页、分类入口、专辑列表、会员状态与投射播放等家长端核心体验。
+            </p>
+          </div>
+          <div className="mx-auto w-full max-w-sm">
+            <video
+              className="h-auto w-full rounded-lg bg-neutral-800 shadow-2xl"
+              controls
+              playsInline
+              preload="none"
+              poster={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/videos/h5-demo-poster.v2.jpg`}
+            >
+              <source src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/videos/h5-demo.v2.mp4`} type="video/mp4" />
+            </video>
+          </div>
+        </div>
+      </div>
+
       {/* 主内容 H5 组件清单 */}
-      <h3 className="text-xl font-semibold" style={{ color: ink[900] }}>
+      <h3 className="mt-14 text-xl font-semibold" style={{ color: ink[900] }}>
         主内容 H5 · 支持的组件
       </h3>
       <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
