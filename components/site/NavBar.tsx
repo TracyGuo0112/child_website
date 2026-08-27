@@ -70,6 +70,7 @@ export function NavBar() {
   const onHome = pathname === "/";
   const onDocs = pathname === "/docs";
   const onFaq = pathname === "/faq";
+  const onChat = pathname === "/chat";
   const [open, setOpen] = useState(false);
   // modal state lives here, not inside the dropdown — closing the dropdown
   // unmounts its children, which would destroy a modal opened from within
@@ -94,7 +95,7 @@ export function NavBar() {
     // stretching the sticky element (which would shift page flow).
     <div className="relative sticky top-0 z-50 px-5 pt-10 sm:px-8">
       <nav
-        className="mx-auto flex max-w-6xl items-center gap-6 rounded-full px-5 py-2.5 backdrop-blur-md sm:px-7"
+        className="mx-auto flex max-w-7xl items-center gap-6 rounded-full px-5 py-2.5 backdrop-blur-md sm:px-7"
         style={glass}
       >
         <Wordmark />
@@ -119,6 +120,16 @@ export function NavBar() {
           >
             高频问题
           </a>
+          {/* page link, same pattern as 高频问题 above — route-based highlight.
+              /chat 已收归 docs 门控（见 app/chat/page.tsx），故点击先弹验证，
+              验证后由 docs/page.tsx 跳回并内嵌客服 */}
+          <button
+            className="cursor-pointer hover:opacity-70"
+            onClick={() => { if (!onChat) setDocsAuthOpen(true); }}
+            style={onChat ? { color: ACCENT.deep, fontWeight: 600 } : undefined}
+          >
+            AI 客服
+          </button>
           {/* not a NAV entry — it opens the docs gate, not a hash anchor. Already
               on /docs: no-op, no point re-gating what you're looking at. */}
           <button
@@ -175,6 +186,14 @@ export function NavBar() {
           >
             高频问题
           </a>
+          {/* /chat 已收归 docs 门控，点击同样先弹验证（同时收起下拉） */}
+          <button
+            className="block w-full rounded-full px-4 py-2.5 text-left text-sm"
+            onClick={() => { setOpen(false); if (!onChat) setDocsAuthOpen(true); }}
+            style={onChat ? { color: ACCENT.deep, fontWeight: 600, background: ACCENT.tint } : { color: ink[700] }}
+          >
+            AI 客服
+          </button>
           {/* opening the docs gate also collapses the dropdown underneath it */}
           <button
             className="block w-full rounded-full px-4 py-2.5 text-left text-sm"

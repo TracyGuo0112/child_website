@@ -14,6 +14,7 @@
 - React 18 + TypeScript
 - Tailwind CSS
 - Three.js / React Three Fiber，用于首页的 3D 果冻团子视觉
+- antd + @ant-design/x，用于 `/chat` AI 客服对话面板（模块在 `components/ai-chat/`）
 - `output: "export"` 静态导出，发布产物在 `out/`
 
 ## 本地开发
@@ -52,11 +53,14 @@ DEPLOY_BASE_PATH=/child_website_v2 npm run build
 app/
   page.tsx                 首页，按锚点串起各章节
   docs/page.tsx            技术文档入口页
+  faq/page.tsx             高频问题页
+  chat/page.tsx            AI 客服页
   sections/                首页各方案章节
   hero/                    首页首屏视觉
 
 components/
   site/                    导航、页脚、背景、按钮、文档弹窗
+  ai-chat/                 AI 客服对话模块（自 aiot-open-platform 迁移，基于 antd + @ant-design/x）
   blobs/                   3D 果冻团子核心实现
   hero-blob/               团子在页面中的轻封装
   palette/                 UI 配色 token

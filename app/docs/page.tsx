@@ -5,6 +5,7 @@ import { surface, ink } from "@/components/palette";
 import { ACCENT } from "@/components/site/accent";
 import { cardSurface } from "@/components/site/atoms";
 import { hasDocsPass } from "@/components/site/docs-keys";
+import ChatPanel from "@/components/ai-chat/ChatPanel";
 
 // Client guard: the soft gate lives in JS, so a direct hit on /docs (no prior
 // verify this session) must bounce home and re-open the key modal — otherwise
@@ -100,6 +101,14 @@ export default function DocsPage() {
           </article>
         ))}
       </div>
+
+      {/* AI 客服：与技术文档同属验证后可见内容，故一并收在 /docs 内 */}
+      <section className="mx-auto mt-14 max-w-4xl">
+        <h2 className="mb-6 text-center text-xl font-semibold" style={{ color: ink[900] }}>
+          AI 客服
+        </h2>
+        <ChatPanel />
+      </section>
     </main>
   );
 }
