@@ -36,12 +36,7 @@ export function ArchitectureSection() {
   return (
     <Section
       id="architecture"
-      title={
-        <>
-          <span className="block">两个子系统</span>
-          <span className="mt-1 block">一套账号体系</span>
-        </>
-      }
+      title="产品架构与职责边界"
       lead="方案由两个子系统组成，共用同一套喜马拉雅账号体系——家长端登录的账号，即为玩具端播放内容所使用的账号。"
     >
       <div className="grid gap-6 sm:grid-cols-2">

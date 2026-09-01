@@ -34,7 +34,7 @@ export function ToySection() {
   return (
     <Section
       id="toy"
-      title="语音点播的全部接口"
+      title="玩具端 SDK 能力"
       lead="设备识别到孩子的收听意图后，调用 SDK 完成内容检索、播放与历史同步。凭证由设备端 SDK 持有并调用，具体格式与管理机制见对接文档。"
     >
       <div className="grid gap-4 sm:grid-cols-2">

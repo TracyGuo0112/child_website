@@ -1,8 +1,6 @@
 import { ink, pastels } from "@/components/palette";
 import { cardSurface } from "@/components/site";
 import { Section } from "@/components/site/Section";
-import { OverviewToc } from "./OverviewToc";
-import { OVERVIEW_NAV } from "./overview-nav";
 
 const VALUES = [
   {
@@ -35,18 +33,11 @@ export function OverviewSection() {
   return (
     <Section
       id="overview"
-      title={
-        <>
-          <span className="block">面向 AI 玩具厂商</span>
-          <span className="mt-1 block">开放内容能力</span>
-        </>
-      }
+      title="产品方案概述"
       lead="喜马拉雅儿童内容生态面向 AI 玩具厂商开放内容能力。本方案用于评估接入价值与技术成本；完整接口文档、SDK 集成手册及加密对接规范，将在签署合作协议后提供。"
     >
-      <div className="lg:grid lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-12">
-        <OverviewToc />
-        <div className="mt-10 lg:mt-0">
-          <section id={OVERVIEW_NAV[0].id} className="scroll-mt-32">
+      <div>
+          <section>
             <h3 className="text-xl font-semibold" style={{ color: ink[900] }}>
               适用设备类型
             </h3>
@@ -75,7 +66,7 @@ export function OverviewSection() {
             </div>
           </section>
 
-          <section id={OVERVIEW_NAV[1].id} className="mt-14 scroll-mt-32">
+          <section className="mt-14">
             <h3 className="text-xl font-semibold" style={{ color: ink[900] }}>
               核心产品能力
             </h3>
@@ -94,7 +85,7 @@ export function OverviewSection() {
             </div>
           </section>
 
-          <section id={OVERVIEW_NAV[2].id} className="mt-14 scroll-mt-32">
+          <section className="mt-14">
             <h3 className="text-xl font-semibold" style={{ color: ink[900] }}>
               设备资源需求
             </h3>
@@ -126,7 +117,6 @@ export function OverviewSection() {
               </div>
             </div>
           </section>
-        </div>
       </div>
     </Section>
   );

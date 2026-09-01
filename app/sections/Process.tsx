@@ -42,7 +42,7 @@ export function ProcessSection() {
   return (
     <Section
       id="process"
-      title="从资料对接到上线运营"
+      title="合作接入流程"
       lead="从资料介绍到运营售后，一条主线贯穿商务洽谈、技术接入与上线运营的关键节点。"
     >
       {/* 竖向时间轴：左侧竖线 + 节点圆点，纯 CSS 无库 */}

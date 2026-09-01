@@ -2,16 +2,17 @@ import { ink, pastels } from "@/components/palette";
 import { cardSurface } from "@/components/site";
 import { Section } from "@/components/site/Section";
 
-// 硬性约束，取自方案文档「六、内容权限与运行约束」——接入前评估产品形态的前提。
+// These constraints define the product boundaries partners must validate before integration.
 const CONSTRAINTS = [
   { name: "纯在线运行", desc: "H5 与玩具端 API 均无离线能力，无网络时设备语音提示网络异常。" },
   { name: "内容不可缓存", desc: "版权内容不可本地缓存、不可转授权、不可向 C 端单独收费。" },
-  { name: "会员内容鉴权", desc: "无会员用户点播会员内容时，API 返回权限不足，设备语音引导家长在 App 中开通。" },
-  { name: "品牌规范", desc: "H5 内保留“喜马拉雅儿童”品牌标识，声音标识“以下内容来自喜马拉雅儿童 APP”；产品宣传中涉及喜马拉雅内容 / IP 的露出需双方确认。" },
+  { name: "会员内容鉴权", desc: "有权益设备首次领取完成后，会员到期仍可播放免费内容；点播会员内容时，设备按接口错误码通过 TTS 引导家长登录、领取或续费。" },
+  { name: "声音来源标识", desc: "每日首次起播时至少一次提示“即将为你播放来自喜马拉雅儿童的《内容名称》”；播放页需展示喜马拉雅儿童 icon 与内容来源标识。" },
+  { name: "品牌合作规范", desc: "专区入口需展示喜马拉雅儿童 icon 和专区文字，专辑封面按规范添加角标与儿童 VIP 标识；产品包装及电商主图不得使用喜马拉雅儿童 logo，售前页和说明书须使用双方确认的标准文案。" },
   { name: "内容运营", desc: "内容首页与活动运营由喜马统一配置，保障内容质量与合规。" },
 ];
 
-// 数据看板四类指标，取自「七、数据看板」。
+// The dashboard groups partner-facing metrics into four decision-ready categories.
 const METRICS = [
   { name: "播放数据", items: "播放量（专辑 / 单集）、播放人数、播放时长", c: pastels.sky },
   { name: "激活数据", items: "SN 激活数、激活率", c: pastels.sage },
@@ -23,7 +24,7 @@ export function ConstraintsSection() {
   return (
     <Section
       id="constraints"
-      title="接入前请确认的硬性约束"
+      title="接入约束与数据能力"
       lead="以下为内容权限与运行约束，接入前请逐项确认，以便评估产品形态。"
     >
       <div className="flex flex-col gap-3">
