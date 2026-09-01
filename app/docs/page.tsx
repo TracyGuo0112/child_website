@@ -1,6 +1,7 @@
 import { surface, ink } from "@/components/palette";
 import { ACCENT } from "@/components/site/accent";
 import { cardSurface } from "@/components/site/atoms";
+import { ProtectedDocs } from "./ProtectedDocs";
 
 const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
@@ -218,11 +219,13 @@ export default function DocsPage() {
 
       <TestAccessFlow />
 
-      <div className="mx-auto grid max-w-6xl gap-3.5 min-[900px]:grid-cols-6">
-        {DOC_SECTIONS.map((section, index) => (
-          <DocsSection key={section.title} section={section} span={index < 3 ? "third" : "half"} />
-        ))}
-      </div>
+      <ProtectedDocs>
+        <div className="grid gap-3.5 min-[900px]:grid-cols-6">
+          {DOC_SECTIONS.map((section, index) => (
+            <DocsSection key={section.title} section={section} span={index < 3 ? "third" : "half"} />
+          ))}
+        </div>
+      </ProtectedDocs>
     </main>
   );
 }
