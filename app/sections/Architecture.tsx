@@ -77,32 +77,33 @@ export function ArchitectureSection() {
         双方职责边界
       </h3>
       <p className="mt-2 text-sm" style={{ color: ink[500] }}>* 具体技术细节见技术文档</p>
-      {/* 移动端表格塌缩成不可读的窄列 —— 改成响应式：sm 以上三列表格，以下卡片堆叠 */}
-      {/* 卡片行布局：模块名做成胶囊、两栏自带标签，一套布局通吃桌面/移动，
-          也避免表格自动列宽把窄列挤到换行 */}
-      <div className="mt-5 space-y-3">
-        {DUTIES.map((d) => (
-          <div key={d.module} className="rounded-lg p-6 sm:flex sm:items-baseline sm:gap-6" style={cardSurface}>
-            <div className="shrink-0 sm:w-32">
-              <span
-                className="inline-block whitespace-nowrap rounded-full px-3 py-1 text-xs font-semibold"
-                style={{ background: ACCENT.tint, color: ACCENT.deep }}
-              >
-                {d.module}
-              </span>
-            </div>
-            <div className="mt-4 grid flex-1 gap-4 sm:mt-0 sm:grid-cols-2 sm:gap-8">
-              <div>
-                <div className="text-xs font-semibold" style={{ color: pastels.clay.deep }}>喜马拉雅提供</div>
-                <p className="mt-1.5 text-sm leading-relaxed" style={{ color: d.xmly === "—" ? ink[500] : ink[700] }}>{d.xmly}</p>
-              </div>
-              <div>
-                <div className="text-xs font-semibold" style={{ color: pastels.sky.deep }}>厂商实现</div>
-                <p className="mt-1.5 text-sm leading-relaxed" style={{ color: d.vendor === "—" ? ink[500] : ink[700] }}>{d.vendor}</p>
-              </div>
-            </div>
-          </div>
-        ))}
+      <div className="mt-5 overflow-hidden rounded-lg" style={cardSurface}>
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[820px] border-collapse text-left text-sm">
+            <thead style={{ background: ACCENT.tint }}>
+              <tr>
+                <th className="w-[18%] px-5 py-4 font-semibold" style={{ color: ink[900] }}>模块</th>
+                <th className="w-[47%] px-5 py-4 font-semibold" style={{ color: pastels.clay.deep }}>喜马拉雅提供</th>
+                <th className="w-[35%] px-5 py-4 font-semibold" style={{ color: pastels.sky.deep }}>厂商实现</th>
+              </tr>
+            </thead>
+            <tbody>
+              {DUTIES.map((d) => (
+                <tr key={d.module} style={{ borderTop: `1px solid ${ink.line}` }}>
+                  <th scope="row" className="px-5 py-4 align-top font-semibold" style={{ color: ACCENT.deep }}>
+                    {d.module}
+                  </th>
+                  <td className="px-5 py-4 align-top leading-relaxed" style={{ color: d.xmly === "—" ? ink[500] : ink[700] }}>
+                    {d.xmly}
+                  </td>
+                  <td className="px-5 py-4 align-top leading-relaxed" style={{ color: d.vendor === "—" ? ink[500] : ink[700] }}>
+                    {d.vendor}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </Section>
   );

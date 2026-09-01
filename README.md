@@ -1,6 +1,6 @@
 # 喜马拉雅儿童 SDK 说明文档
 
-这是面向第三方 AI 玩具厂商的喜马拉雅儿童内容接入说明站。页面用于对外介绍接入方案、家长端能力、玩具端 SDK 能力、合作流程，并提供需要 appkey 才能进入的技术文档页。
+这是面向第三方 AI 玩具厂商的喜马拉雅儿童内容接入说明站。页面用于对外介绍接入方案、家长端能力、玩具端 SDK 能力、合作流程，并公开提供技术文档和 AI 客服。
 
 当前项目以静态站点方式部署到 nginx 子路径：
 
@@ -81,29 +81,17 @@ public/
 
 ## 技术文档页
 
-技术文档页位于 `/docs`，当前展示两份 PDF：
+技术文档页位于 `/docs`，当前展示五份 PDF：
 
-- `public/docs/xmly-sdk-c-v2.2.pdf`
-- `public/docs/xmly-miniapp-v2.1.pdf`
+- `public/docs/xmly-sdk-c-v2.7.pdf`
+- `public/docs/xmly-miniapp-v2.0.4.pdf`
+- `public/docs/xmly-app-android.pdf`
+- `public/docs/xmly-app-harmonyos.pdf`
+- `public/docs/xmly-app-ios.pdf`
 
 文档列表和版本号在 `app/docs/page.tsx` 中维护。
 
-`/docs` 有一个前端 appkey 轻校验：
-
-- 校验逻辑在 `components/site/docs-keys.ts`。
-- 代码里只保存 appkey 的 SHA-256 hash，不保存原始 appkey。
-- 通过校验后会在当前浏览器会话里写入 `sessionStorage.docs_ok`。
-- 这是前端软门禁，不是真正的访问控制；`public/docs` 下的 PDF 仍可通过直接 URL 访问。
-
-新增厂商 appkey 时，只提交 hash，不要把原始 appkey 写进代码、README、issue 或 PR。
-
-可以在本地生成 hash：
-
-```bash
-node -e "const crypto=require('crypto'); console.log(crypto.createHash('sha256').update(process.argv[1], 'utf8').digest('hex'))" "这里放 appkey"
-```
-
-然后把结果追加到 `components/site/docs-keys.ts` 的 `KEY_HASHES`。
+`/docs`、其中的 PDF 文档以及 `/chat` 均为公开内容，无需 appkey 或登录即可访问。
 
 ## 替换资源
 
@@ -184,8 +172,7 @@ v2 站同理替换为 `/usr/share/nginx/html/child_website_v2/...`。
 
 ## 维护注意事项
 
-- 不要提交原始 appkey。
 - 不要把 `out/`、`.next/`、`node_modules/` 提交进仓库。
 - 改导航时同时检查桌面导航、移动端导航和页脚导航。
 - 改资源路径后一定要重新构建；静态导出会把路径写进生成后的 JS。
-- 文档页门禁只是轻校验，不适合承载高敏感资料。
+- 技术文档和 AI 客服均为公开入口，不要在其中放置高敏感资料。

@@ -7,7 +7,6 @@ import { ACCENT } from "./accent";
 import { NAV } from "./nav";
 import { Wordmark, SolidBtn } from "./atoms";
 import { ContactModal } from "./ApplyBtn";
-import { DocsAuthModal } from "./DocsAuthModal";
 
 // Crystal-glass surface, shared by the pill bar and the mobile dropdown: a
 // low-opacity white tint over a strong backdrop blur (the sky bleeds through,
@@ -75,19 +74,6 @@ export function NavBar() {
   // modal state lives here, not inside the dropdown — closing the dropdown
   // unmounts its children, which would destroy a modal opened from within
   const [contactOpen, setContactOpen] = useState(false);
-  const [docsAuthOpen, setDocsAuthOpen] = useState(false);
-
-  // A bounced /docs hit lands here as ?docs=1 — re-open the key modal, then strip
-  // the param so a refresh doesn't keep re-triggering it.
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("docs") === "1") {
-      setDocsAuthOpen(true);
-      params.delete("docs");
-      const qs = params.toString();
-      window.history.replaceState(null, "", window.location.pathname + (qs ? `?${qs}` : ""));
-    }
-  }, []);
 
   return (
     // Outer sticky band provides top offset + side gutters so the pill floats in
@@ -111,6 +97,13 @@ export function NavBar() {
               {label}
             </a>
           ))}
+          <a
+            href={`${base}/docs`}
+            className="cursor-pointer hover:opacity-70"
+            style={onDocs ? { color: ACCENT.deep, fontWeight: 600 } : undefined}
+          >
+            技术文档
+          </a>
           {/* page link, not a hash anchor — kept out of NAV so scroll-spy and
               Footer (both NAV consumers) stay anchor-only */}
           <a
@@ -120,25 +113,13 @@ export function NavBar() {
           >
             高频问题
           </a>
-          {/* page link, same pattern as 高频问题 above — route-based highlight.
-              /chat 已收归 docs 门控（见 app/chat/page.tsx），故点击先弹验证，
-              验证后由 docs/page.tsx 跳回并内嵌客服 */}
-          <button
+          <a
+            href={`${base}/chat`}
             className="cursor-pointer hover:opacity-70"
-            onClick={() => { if (!onChat) setDocsAuthOpen(true); }}
             style={onChat ? { color: ACCENT.deep, fontWeight: 600 } : undefined}
           >
             AI 客服
-          </button>
-          {/* not a NAV entry — it opens the docs gate, not a hash anchor. Already
-              on /docs: no-op, no point re-gating what you're looking at. */}
-          <button
-            className="cursor-pointer hover:opacity-70"
-            onClick={() => { if (!onDocs) setDocsAuthOpen(true); }}
-            style={onDocs ? { color: ACCENT.deep, fontWeight: 600 } : undefined}
-          >
-            技术文档
-          </button>
+          </a>
         </div>
         <div className="hidden lg:block">
           <SolidBtn onClick={() => setContactOpen(true)}>申请合作</SolidBtn>
@@ -179,6 +160,14 @@ export function NavBar() {
             </a>
           ))}
           <a
+            href={`${base}/docs`}
+            className="block rounded-full px-4 py-2.5 text-sm"
+            onClick={() => setOpen(false)}
+            style={onDocs ? { color: ACCENT.deep, fontWeight: 600, background: ACCENT.tint } : { color: ink[700] }}
+          >
+            技术文档
+          </a>
+          <a
             href={`${base}/faq`}
             className="block rounded-full px-4 py-2.5 text-sm"
             onClick={() => setOpen(false)}
@@ -186,22 +175,14 @@ export function NavBar() {
           >
             高频问题
           </a>
-          {/* /chat 已收归 docs 门控，点击同样先弹验证（同时收起下拉） */}
-          <button
-            className="block w-full rounded-full px-4 py-2.5 text-left text-sm"
-            onClick={() => { setOpen(false); if (!onChat) setDocsAuthOpen(true); }}
+          <a
+            href={`${base}/chat`}
+            className="block rounded-full px-4 py-2.5 text-sm"
+            onClick={() => setOpen(false)}
             style={onChat ? { color: ACCENT.deep, fontWeight: 600, background: ACCENT.tint } : { color: ink[700] }}
           >
             AI 客服
-          </button>
-          {/* opening the docs gate also collapses the dropdown underneath it */}
-          <button
-            className="block w-full rounded-full px-4 py-2.5 text-left text-sm"
-            onClick={() => { setOpen(false); if (!onDocs) setDocsAuthOpen(true); }}
-            style={onDocs ? { color: ACCENT.deep, fontWeight: 600, background: ACCENT.tint } : { color: ink[700] }}
-          >
-            技术文档
-          </button>
+          </a>
           <div className="px-4 pb-1 pt-3">
             {/* opening the modal also collapses the dropdown underneath it */}
             <SolidBtn onClick={() => { setOpen(false); setContactOpen(true); }}>申请合作</SolidBtn>
@@ -210,11 +191,6 @@ export function NavBar() {
       )}
 
       <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
-      <DocsAuthModal
-        open={docsAuthOpen}
-        onClose={() => setDocsAuthOpen(false)}
-        onContact={() => { setDocsAuthOpen(false); setContactOpen(true); }}
-      />
     </div>
   );
 }
