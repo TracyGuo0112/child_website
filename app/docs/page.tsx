@@ -153,7 +153,7 @@ function TestAccessFlow() {
       <div className="grid gap-4 lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)] lg:gap-8">
         <div>
           <h2 className="text-lg font-semibold tracking-tight" style={{ color: ink[900] }}>
-            测试接入流程
+            测试/正式接入流程
           </h2>
           <p className="mt-1.5 text-xs leading-relaxed sm:text-sm" style={{ color: ink[700] }}>
             需要提供由 <code className="font-semibold" style={{ color: ACCENT.deep }}>ssh-ed25519</code> 生成的公钥，用于开通代码权限。
