@@ -89,13 +89,13 @@ const DOC_SECTIONS: DocSection[] = [
   },
   {
     title: "喜马拉雅儿童会员权益接入方案",
-    desc: "适用于硬件、App 与小程序合作伙伴的会员权益自动发放、无感登录及提醒机制说明。",
+    desc: "适用于硬件、App 与小程序合作伙伴的设备权益领取、自动发放、无感登录及提醒机制说明。",
     docs: [
       {
-        title: "儿童会员权益自动发放与登录方案",
-        meta: "V2.0 · PDF · 9 页",
-        desc: "覆盖设备 SN 报备、首次绑定、权益自动下发、登录策略、双方职责、提醒机制与上线验收流程。",
-        file: `${base}/docs/child-membership-benefits-v2.0.pdf`,
+        title: "会员权益领取方案（合作伙伴通用版）",
+        meta: "V3.0 · PDF · 9 页",
+        desc: "覆盖设备 SN 报备、领取规则、首次绑定、权益自动下发、登录策略、提醒机制与上线验收流程。",
+        file: `${base}/docs/child-membership-benefits-v3.0.pdf`,
       },
     ],
   },

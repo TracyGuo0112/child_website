@@ -110,7 +110,7 @@ export function ParentSection() {
         ))}
       </ul>
       <a
-        href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/docs/child-membership-benefits-v2.0.pdf`}
+        href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/docs/child-membership-benefits-v3.0.pdf`}
         target="_blank"
         rel="noopener noreferrer"
         className="mt-5 inline-block rounded-full px-5 py-2.5 text-sm font-semibold transition-transform hover:-translate-y-0.5"
