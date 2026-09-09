@@ -1,13 +1,11 @@
 import { AI_CHAT_CONFIG } from './config';
 
 /**
- * ngrok 免费版会为一个 *.ngrok-free.dev 域名注入「访问提醒」HTML 拦截页，
- * 该页没有 CORS 头，导致浏览器跨域校验失败（未加时常报
- * "No 'Access-Control-Allow-Origin' header"）。加上此自定义头后 ngrok 就不会
- * 注入拦截页，后端原始响应（含 CORS 头）原样返回。所有直连 viking 的 XHR 都要加，
- * 否则对应请求仍会被拦。
+ * 网关基地址（独立部署的 qa-gateway：sdk-QA-agent/qa-gateway，Fastify）。
+ * 对话 /stream、上下文 /context、健康 /health 均相对此地址，由网关在服务端
+ * 转发到 viking（隐藏 api key）。浏览器不再直连 viking。
  */
-const NGROK_SKIP_BROWSER_WARNING = 'ngrok-skip-browser-warning';
+const GATEWAY_BASE = AI_CHAT_CONFIG.gateway.apiBase;
 
 type ChatRole = 'user' | 'assistant' | 'system';
 
@@ -48,12 +46,11 @@ export function requestChat(messages: ChatMessage[], callbacks: ChatCallbacks, s
 }
 
 /**
- * 健康检查：探测当前 viking endpoint 的 OpenViking 服务是否在线。
- * /health 无需鉴权，返回 { status, healthy, ... }；健康且 HTTP 2xx 视为在线。
- * 带超时（默认 5s），避免后端不可达时请求长时间挂起。
+ * 健康检查：探测网关是否在线（网关会把 viking 可用性一并回报）。
+ * 浏览器跨域访问 qa-gateway 的 /health，无需鉴权。返回 { status, gateway, db, viking }，
+ * 网关在线且 HTTP 2xx 视为可用；带超时（默认 5s），避免后端不可达时请求长时间挂起。
  */
 export function checkVikingHealth(timeoutMs = 5000): Promise<boolean> {
-  const { endpoint } = AI_CHAT_CONFIG.viking;
   return new Promise((resolve) => {
     const xhr = new XMLHttpRequest();
     // 超时即视为离线
@@ -61,8 +58,7 @@ export function checkVikingHealth(timeoutMs = 5000): Promise<boolean> {
       xhr.abort();
       resolve(false);
     }, timeoutMs);
-    xhr.open('GET', endpoint + '/health', true);
-    xhr.setRequestHeader(NGROK_SKIP_BROWSER_WARNING, 'true');
+    xhr.open('GET', GATEWAY_BASE + '/health', true);
     xhr.onload = () => {
       clearTimeout(timer);
       const ok = xhr.status >= 200 && xhr.status < 300;
@@ -94,89 +90,38 @@ export interface SessionMessage {
   content: string;
 }
 
-/** 拉取某会话的完整消息记录（服务端为唯一来源，含刷新恢复） */
+/**
+ * 拉取某会话的完整消息记录（网关为唯一来源，含刷新恢复）。
+ * 由 qa-gateway 在服务端完成「会话列表解析 → 完整会话 id → 拉取上下文」，
+ * 浏览器只需 GET {GATEWAY_BASE}/context?session_id=xxx。
+ */
 export function fetchVikingContext(sessionId: string): Promise<SessionMessage[]> {
-  const { endpoint, apiKey } = AI_CHAT_CONFIG.viking;
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
-    // sessionId 可能是裸 UUID（请求时用的），需先经会话列表解析出带命名空间前缀的完整 id
-    resolveWithContextId(endpoint, apiKey, sessionId).then(
-      (fullId) => {
-        if (!fullId) {
-          resolve([]);
-          return;
-        }
-        xhr.open('GET', endpoint + '/api/v1/sessions/' + encodeURIComponent(fullId) + '/context', true);
-        xhr.setRequestHeader('X-API-Key', apiKey);
-        xhr.setRequestHeader(NGROK_SKIP_BROWSER_WARNING, 'true');
-        xhr.onload = () => {
-          if (xhr.status < 200 || xhr.status >= 300) {
-            reject(new Error('会话记录获取失败 ' + xhr.status));
-            return;
-          }
-          try {
-            const data = JSON.parse(xhr.responseText);
-            const messages = (data && data.result && data.result.messages) || [];
-            const out: SessionMessage[] = [];
-            for (let i = 0; i < messages.length; i++) {
-              const m = messages[i];
-              if (!m || (m.role !== 'user' && m.role !== 'assistant')) continue;
-              // 只取文本部分，跳过工具调用入参出参
-              let text = '';
-              const parts = m.parts || [];
-              for (let j = 0; j < parts.length; j++) {
-                if (parts[j] && parts[j].type === 'text' && typeof parts[j].text === 'string') {
-                  text += parts[j].text;
-                }
-              }
-              if (text) {
-                out.push({ role: m.role, content: text });
-              }
-            }
-            resolve(out);
-          } catch {
-            reject(new Error('会话记录解析失败'));
-          }
-        };
-        xhr.onerror = () => reject(new Error('网络异常'));
-        xhr.send();
-      },
-      (err) => reject(err),
-    );
-  });
-}
-
-/** 裸 UUID → 带命名空间前缀的完整会话 id（前缀首次从会话列表解析后缓存） */
-let vikingSessionPrefix: string | null = null;
-
-function resolveWithContextId(endpoint: string, apiKey: string, sessionId: string): Promise<string | null> {
-  if (vikingSessionPrefix) {
-    return Promise.resolve(vikingSessionPrefix + ':' + sessionId);
-  }
-  return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', endpoint + '/api/v1/sessions', true);
-    xhr.setRequestHeader('X-API-Key', apiKey);
-    xhr.setRequestHeader(NGROK_SKIP_BROWSER_WARNING, 'true');
+    xhr.open('GET', GATEWAY_BASE + '/context?session_id=' + encodeURIComponent(sessionId), true);
     xhr.onload = () => {
       if (xhr.status < 200 || xhr.status >= 300) {
-        reject(new Error('会话列表获取失败 ' + xhr.status));
+        reject(new Error('会话记录获取失败 ' + xhr.status));
         return;
       }
       try {
         const data = JSON.parse(xhr.responseText);
-        const list = ((data && data.result) || []) as Array<Record<string, unknown>>;
-        const hit = list.find((it) => {
-          const sid = String((it && it.session_id) || '');
-          return sid === sessionId || sid.endsWith(':' + sessionId);
-        });
-        const fullId = hit ? String(hit.session_id) : null;
-        if (fullId && fullId.indexOf(':' + sessionId) !== -1) {
-          vikingSessionPrefix = fullId.slice(0, fullId.length - sessionId.length - 1);
+        const messages = (data && data.messages) || [];
+        if (!Array.isArray(messages)) {
+          resolve([]);
+          return;
         }
-        resolve(fullId);
+        const out: SessionMessage[] = [];
+        for (let i = 0; i < messages.length; i++) {
+          const m = messages[i];
+          if (!m || (m.role !== 'user' && m.role !== 'assistant')) continue;
+          if (typeof m.content === 'string' && m.content) {
+            out.push({ role: m.role, content: m.content });
+          }
+        }
+        resolve(out);
       } catch {
-        reject(new Error('会话列表解析失败'));
+        reject(new Error('会话记录解析失败'));
       }
     };
     xhr.onerror = () => reject(new Error('网络异常'));
@@ -274,8 +219,8 @@ export function uuidV4(): string {
 
 /**
  * VikingBot（OpenViking 知识库）对话流适配器
- * 协议要点（POST {endpoint}/bot/v1/chat/stream，SSE）：
- * - 请求头 X-API-Key；请求体 { message, session_id }，多轮上下文由服务端按 session_id 维护
+ * 协议要点（POST {GATEWAY_BASE}/stream，SSE；网关在服务端转发到 viking）：
+ * - 请求体 { message, session_id }，多轮上下文由网关按 session_id 维护
  * - 过程事件 event: tool_call / tool_result / iteration（检索与迭代过程）
  * - 最终事件 event: response，data.content 为一次性全文（无增量 delta），这里切片模拟打字机
  */
@@ -303,7 +248,7 @@ const PHASE_LABEL: Record<ChatPhase, string> = {
 };
 
 function requestVikingBot(messages: ChatMessage[], callbacks: ChatCallbacks, sessionId?: string): ChatHandle {
-  const { endpoint, apiKey, statusText } = AI_CHAT_CONFIG.viking;
+  const { statusText } = AI_CHAT_CONFIG.gateway;
   const lastQuestion = [...messages].reverse().find((m) => m.role === 'user');
   if (!lastQuestion) {
     if (callbacks.onError) callbacks.onError(new Error('没有可发送的提问'));
@@ -382,11 +327,9 @@ function requestVikingBot(messages: ChatMessage[], callbacks: ChatCallbacks, ses
     }
   };
 
-  xhr.open('POST', endpoint + '/bot/v1/chat/stream', true);
+  xhr.open('POST', GATEWAY_BASE + '/stream', true);
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.setRequestHeader('Accept', 'text/event-stream');
-  xhr.setRequestHeader('X-API-Key', apiKey);
-  xhr.setRequestHeader(NGROK_SKIP_BROWSER_WARNING, 'true');
 
   xhr.onprogress = () => {
     const chunk = xhr.responseText.slice(consumed);
