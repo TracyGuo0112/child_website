@@ -109,12 +109,15 @@ export function ParentSection() {
           </li>
         ))}
       </ul>
-      <span
-        className="mt-5 inline-block rounded-full border px-5 py-2.5 text-sm font-semibold"
-        style={{ borderColor: ink.line, color: ink[500] }}
+      <a
+        href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/docs/child-membership-benefits-v3.0.pdf`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-5 inline-block rounded-full px-5 py-2.5 text-sm font-semibold transition-transform hover:-translate-y-0.5"
+        style={{ background: ACCENT.deep, color: "white" }}
       >
-        完整接入方案暂不开放
-      </span>
+        查看完整会员权益接入方案
+      </a>
 
       {/* 用户自主续费 + 付费链路图 */}
       <h3 className="mt-14 text-xl font-semibold" style={{ color: ink[900] }}>
