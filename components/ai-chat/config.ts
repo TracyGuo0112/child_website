@@ -1,6 +1,10 @@
 /**
  * AI 客服模块配置（自 aiot-open-platform/components/ai-chat 迁移）
  * 后续接入内部大模型服务时，只需调整本文件（协议非现有实现时再在 service.ts 补充适配器）
+ *
+ * 机密配置说明：viking 的 api key 不在前端，浏览器访问独立部署的 qa-gateway
+ * （sdk-QA-agent/qa-gateway，Fastify），由网关服务端转发到 viking 并隐藏密钥。
+ * 对话走 /stream、/context，健康检查走 /health（均相对 GATEWAY_BASE）。
  */
 export interface AiChatPrompt {
   key: string;
@@ -11,11 +15,10 @@ export interface AiChatPrompt {
 export interface AiChatConfig {
   /** 服务模式：mock-内置演示应答；viking-VikingBot 知识库对话流 */
   mode: 'mock' | 'viking';
-  /** VikingBot（OpenViking 知识库）配置（mode 为 viking 时生效） */
-  viking: {
-    /** 服务根地址，如 http://localhost:8933 */
-    endpoint: string;
-    apiKey: string;
+  /** 网关配置：浏览器跨域访问独立部署的 qa-gateway（Fastify 服务） */
+  gateway: {
+    /** 网关基地址，如 'http://localhost:3400'，实际拼接 /stream /context /health */
+    apiBase: string;
     /** 检索阶段的过渡提示文案（首个 tool_call 事件时展示） */
     statusText: string;
   };
@@ -27,11 +30,15 @@ export interface AiChatConfig {
   };
 }
 
+// 网关地址：sdk-QA-agent/qa-gateway（Fastify），默认监听 3400。
+// 本地开发指向 http://localhost:3400；部署后改用对外可达的公网地址（nginx/Caddy 反代）。
+const GATEWAY_BASE = 'http://120.48.82.100:3400';
+// const GATEWAY_BASE = 'http://localhost:3400';
+
 export const AI_CHAT_CONFIG: AiChatConfig = {
   mode: 'viking',
-  viking: {
-    endpoint: 'https://lazily-jugular-flip.ngrok-free.dev',
-    apiKey: 'ZGVmYXVsdA.YWRtaW4.ZTkzNzU4Y2MwNzY5ZjIyYzMxNzc5NGM4YjU4Njg3ZGZiOWE2MTJmZmE4YWJkOTcyYTBkZjdiOTY2ZTcxNDJjOA',
+  gateway: {
+    apiBase: GATEWAY_BASE,
     statusText: '🔍 正在检索知识库…',
   },
   welcome: {
