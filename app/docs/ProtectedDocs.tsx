@@ -5,8 +5,20 @@ import { useEffect, useRef, useState } from "react";
 import { surface, ink } from "@/components/palette";
 import { ACCENT } from "@/components/site/accent";
 
-const ACCESS_HASH = 1403045127;
-const ACCESS_SESSION_KEY = "xmly-docs-access";
+const ALLOWED_APP_KEY_HASHES = new Set([
+  1956082472,
+  3600394450,
+  304584305,
+  359047818,
+  2612484695,
+  557993,
+  560507038,
+  2930129497,
+  632450472,
+  1886071323,
+]);
+const ACCESS_SESSION_KEY = "xmly-docs-app-key-access";
+const APP_KEY_PATTERN = /^[a-f0-9]{32}$/;
 
 function hashAccessKey(value: string) {
   let hash = 2166136261;
@@ -20,7 +32,7 @@ function hashAccessKey(value: string) {
 }
 
 export function ProtectedDocs({ children }: { children: ReactNode }) {
-  const [password, setPassword] = useState("");
+  const [appKey, setAppKey] = useState("");
   const [error, setError] = useState("");
   const [isUnlocked, setIsUnlocked] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -37,14 +49,16 @@ export function ProtectedDocs({ children }: { children: ReactNode }) {
     event.preventDefault();
     setError("");
 
-    const isValid = hashAccessKey(password) === ACCESS_HASH;
+    const normalizedAppKey = appKey.trim().toLowerCase();
+    const isValid = APP_KEY_PATTERN.test(normalizedAppKey)
+      && ALLOWED_APP_KEY_HASHES.has(hashAccessKey(normalizedAppKey));
 
     if (isValid) {
       sessionStorage.setItem(ACCESS_SESSION_KEY, "unlocked");
       setIsUnlocked(true);
-      setPassword("");
+      setAppKey("");
     } else {
-      setError("密码不正确，请重新输入。");
+      setError("app_key 无效，请确认后重试。");
     }
   }
 
@@ -79,34 +93,37 @@ export function ProtectedDocs({ children }: { children: ReactNode }) {
             </div>
             <h2 className="mt-3 text-lg font-semibold" style={{ color: ink[900] }}>文档内容已隐藏</h2>
             <p className="mt-1 text-xs leading-relaxed sm:text-sm" style={{ color: ink[700] }}>
-              输入访问密码后查看接入文档、品牌规范与权益方案。
+              输入已授权的 app_key 后查看接入文档、品牌规范与权益方案。
             </p>
 
-            <label className="mt-4 block text-left text-xs font-semibold" htmlFor="docs-access-password" style={{ color: ink[900] }}>
-              访问密码
+            <label className="mt-4 block text-left text-xs font-semibold" htmlFor="docs-access-app-key" style={{ color: ink[900] }}>
+              app_key
             </label>
             <div className="mt-1.5 flex gap-2">
               <input
-                id="docs-access-password"
-                name="docs-access-password"
+                id="docs-access-app-key"
+                name="docs-access-app-key"
                 type="password"
                 autoComplete="off"
-                value={password}
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck={false}
+                value={appKey}
                 onChange={(event) => {
-                  setPassword(event.target.value);
+                  setAppKey(event.target.value);
                   setError("");
                 }}
                 className="min-w-0 flex-1 rounded-full border bg-white/80 px-4 py-2.5 text-sm outline-none transition-shadow focus:ring-2"
                 style={{ borderColor: ink.line, color: ink[900] }}
-                placeholder="请输入密码"
+                placeholder="请输入 app_key"
               />
               <button
                 type="submit"
-                disabled={!password}
+                disabled={!appKey.trim()}
                 className="whitespace-nowrap rounded-full px-5 py-2.5 text-sm font-semibold transition-opacity disabled:cursor-not-allowed disabled:opacity-50"
                 style={{ background: ACCENT.deep, color: surface.raised }}
               >
-                查看文档
+                验证并查看
               </button>
             </div>
             <p className="mt-2 min-h-5 text-left text-xs" role="alert" style={{ color: ACCENT.deep }}>
