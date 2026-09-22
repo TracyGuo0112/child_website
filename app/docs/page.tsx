@@ -22,7 +22,7 @@ type DocSection = {
 
 const DOC_SECTIONS: DocSection[] = [
   {
-    title: "喜马拉雅嵌入式 SDK（C 语言）接入详解",
+    title: "嵌入式 SDK（C 语言）接入详解",
     desc: "面向玩具设备端的 SDK 架构、平台适配、API 与业务流程说明。",
     docs: [
       {
@@ -40,7 +40,7 @@ const DOC_SECTIONS: DocSection[] = [
     ],
   },
   {
-    title: "喜马拉雅微信小程序端接入详解",
+    title: "微信小程序端接入详解",
     desc: "面向微信小程序宿主的儿童内容插件集成与通信说明。",
     docs: [
       {
@@ -52,7 +52,7 @@ const DOC_SECTIONS: DocSection[] = [
     ],
   },
   {
-    title: "喜马拉雅app端接入详解",
+    title: "APP端接入详解",
     desc: "按目标平台查看喜马拉雅生态 SDK 的完整集成说明。",
     docs: [
       {
