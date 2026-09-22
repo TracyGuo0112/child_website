@@ -11,6 +11,7 @@ type Doc = {
   desc: string;
   file: string;
   downloadFile?: string;
+  downloadOnly?: boolean;
 };
 
 type DocSection = {
@@ -99,6 +100,25 @@ const DOC_SECTIONS: DocSection[] = [
       },
     ],
   },
+  {
+    title: "喜马拉雅儿童 SDK 上线验收",
+    desc: "面向 App、小程序和设备端的前端验收标准与 P0 测试用例。",
+    docs: [
+      {
+        title: "喜马儿童 SDK 前端验收标准",
+        meta: "V1.0 · PDF · 8 页",
+        desc: "覆盖固定入口、权益到账弹窗、SDK 页面与容器规范、自动登录及上线效果示例。",
+        file: `${base}/docs/child-sdk-frontend-acceptance-v1.0.pdf`,
+      },
+      {
+        title: "儿童 SDK 测试用例（P0 通过才能上线）",
+        meta: "XLSX · 4 个工作表",
+        desc: "包含测试报告、设备端、H5 与点播测试用例，用于上线前 P0 验收。",
+        file: `${base}/docs/child-sdk-test-cases-p0.xlsx`,
+        downloadOnly: true,
+      },
+    ],
+  },
 ];
 
 function DocCard({ doc: d }: { doc: Doc }) {
@@ -126,15 +146,17 @@ function DocCard({ doc: d }: { doc: Doc }) {
       </div>
 
       <div className="flex items-center gap-2 min-[520px]:pl-2">
-        <a
-          href={d.file}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-block whitespace-nowrap rounded-full px-4 py-2 text-xs font-semibold transition-transform hover:-translate-y-0.5"
-          style={{ background: ACCENT.deep, color: surface.raised }}
-        >
-          查看
-        </a>
+        {!d.downloadOnly && (
+          <a
+            href={d.file}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block whitespace-nowrap rounded-full px-4 py-2 text-xs font-semibold transition-transform hover:-translate-y-0.5"
+            style={{ background: ACCENT.deep, color: surface.raised }}
+          >
+            查看
+          </a>
+        )}
         <a
           href={d.downloadFile ?? d.file}
           download
@@ -185,10 +207,18 @@ function TestAccessFlow() {
   );
 }
 
-function DocsSection({ section, span }: { section: DocSection; span: "third" | "half" }) {
+type DocsSectionSpan = "third" | "half" | "full";
+
+function DocsSection({ section, span }: { section: DocSection; span: DocsSectionSpan }) {
+  const spanClass = {
+    third: "min-[900px]:col-span-2",
+    half: "min-[900px]:col-span-3",
+    full: "min-[900px]:col-span-6",
+  }[span];
+
   return (
     <section
-      className={`h-full rounded-2xl p-4 sm:p-5 ${span === "third" ? "min-[900px]:col-span-2" : "min-[900px]:col-span-3"}`}
+      className={`h-full rounded-2xl p-4 sm:p-5 ${spanClass}`}
       style={cardSurface}
     >
       <div>
@@ -199,7 +229,7 @@ function DocsSection({ section, span }: { section: DocSection; span: "third" | "
           {section.desc}
         </p>
       </div>
-      <div className="mt-4 grid gap-3">
+      <div className={`mt-4 grid gap-3 ${span === "full" ? "min-[900px]:grid-cols-2" : ""}`}>
         {section.docs.map((doc) => <DocCard key={doc.file} doc={doc} />)}
       </div>
     </section>
@@ -222,7 +252,11 @@ export default function DocsPage() {
       <ProtectedDocs>
         <div className="grid gap-3.5 min-[900px]:grid-cols-6">
           {DOC_SECTIONS.map((section, index) => (
-            <DocsSection key={section.title} section={section} span={index < 3 ? "third" : "half"} />
+            <DocsSection
+              key={section.title}
+              section={section}
+              span={index < 3 ? "third" : index < 5 ? "half" : "full"}
+            />
           ))}
         </div>
       </ProtectedDocs>
