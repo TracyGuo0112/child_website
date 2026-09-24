@@ -94,9 +94,9 @@ const DOC_SECTIONS: DocSection[] = [
     docs: [
       {
         title: "会员权益领取方案（合作伙伴通用版）",
-        meta: "V3.0 · PDF · 9 页",
+        meta: "V4.0 · PDF · 10 页",
         desc: "覆盖设备 SN 报备、领取规则、首次绑定、权益自动下发、登录策略、提醒机制与上线验收流程。",
-        file: `${base}/docs/child-membership-benefits-v3.0.pdf`,
+        file: `${base}/docs/child-membership-benefits-v4.0.pdf`,
       },
     ],
   },
