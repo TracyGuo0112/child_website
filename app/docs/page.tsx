@@ -5,6 +5,8 @@ import { ProtectedDocs } from "./ProtectedDocs";
 
 const base = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
+type DocsSectionSpan = "third" | "half" | "full";
+
 type Doc = {
   title: string;
   meta: string;
@@ -12,18 +14,22 @@ type Doc = {
   file: string;
   downloadFile?: string;
   downloadOnly?: boolean;
+  hideDownload?: boolean;
+  openInSameTab?: boolean;
 };
 
 type DocSection = {
   title: string;
   desc: string;
   docs: Doc[];
+  span: DocsSectionSpan;
 };
 
 const DOC_SECTIONS: DocSection[] = [
   {
     title: "嵌入式 SDK（C 语言）接入详解",
     desc: "面向玩具设备端的 SDK 架构、平台适配、API 与业务流程说明。",
+    span: "third",
     docs: [
       {
         title: "嵌入式 SDK 接入文档",
@@ -42,6 +48,7 @@ const DOC_SECTIONS: DocSection[] = [
   {
     title: "微信小程序端接入详解",
     desc: "面向微信小程序宿主的儿童内容插件集成与通信说明。",
+    span: "third",
     docs: [
       {
         title: "微信小程序插件接入文档",
@@ -54,6 +61,7 @@ const DOC_SECTIONS: DocSection[] = [
   {
     title: "APP端接入详解",
     desc: "按目标平台查看喜马拉雅生态 SDK 的完整集成说明。",
+    span: "third",
     docs: [
       {
         title: "Android 集成指南",
@@ -76,8 +84,39 @@ const DOC_SECTIONS: DocSection[] = [
     ],
   },
   {
+    title: "儿童内容 API / MCP 接入",
+    desc: "儿童内容搜索可根据产品形态选择 API 或 MCP 方式接入；同时提供公共参数、签名规则与设备标识说明。",
+    span: "full",
+    docs: [
+      {
+        title: "API 接入说明",
+        meta: "在线文档 · 公共参数与签名",
+        desc: "覆盖公共参数、特殊字符编码、各端设备 ID 生成规则、通用签名算法与错误码。",
+        file: `${base}/docs/api-access`,
+        hideDownload: true,
+        openInSameTab: true,
+      },
+      {
+        title: "儿童内容搜索 API",
+        meta: "在线文档 · 搜索接口",
+        desc: "说明儿童内容关键词搜索的请求地址、业务参数、响应字段、示例与降级规则。",
+        file: `${base}/docs/child-content-search-api`,
+        hideDownload: true,
+        openInSameTab: true,
+      },
+      {
+        title: "AI 搜索：MCP 使用文档",
+        meta: "Apifox · 访问密码：2wXyXnom",
+        desc: "儿童内容 AI 搜索的 MCP 接入说明，适用于选择 MCP 方式的合作伙伴。",
+        file: "https://s.apifox.cn/ae0a322b-d69d-4691-bce4-28a69ca1ac5a",
+        hideDownload: true,
+      },
+    ],
+  },
+  {
     title: "喜马拉雅儿童品牌合作规范",
     desc: "面向内容合作伙伴的品牌露出、专区入口、会员标识及包装宣传规范。",
+    span: "half",
     docs: [
       {
         title: "喜马拉雅儿童内容合作品牌规范",
@@ -91,6 +130,7 @@ const DOC_SECTIONS: DocSection[] = [
   {
     title: "喜马拉雅儿童会员权益接入方案",
     desc: "适用于硬件、App 与小程序合作伙伴的设备权益领取、自动发放、无感登录及提醒机制说明。",
+    span: "half",
     docs: [
       {
         title: "会员权益领取方案（合作伙伴通用版）",
@@ -103,6 +143,7 @@ const DOC_SECTIONS: DocSection[] = [
   {
     title: "喜马拉雅儿童 SDK 上线验收",
     desc: "面向 App、小程序和设备端的前端验收标准与 P0 测试用例。",
+    span: "full",
     docs: [
       {
         title: "喜马儿童 SDK 前端验收标准",
@@ -149,22 +190,24 @@ function DocCard({ doc: d }: { doc: Doc }) {
         {!d.downloadOnly && (
           <a
             href={d.file}
-            target="_blank"
-            rel="noopener noreferrer"
+            target={d.openInSameTab ? undefined : "_blank"}
+            rel={d.openInSameTab ? undefined : "noopener noreferrer"}
             className="inline-block whitespace-nowrap rounded-full px-4 py-2 text-xs font-semibold transition-transform hover:-translate-y-0.5"
             style={{ background: ACCENT.deep, color: surface.raised }}
           >
             查看
           </a>
         )}
-        <a
-          href={d.downloadFile ?? d.file}
-          download
-          className="inline-block whitespace-nowrap rounded-full px-4 py-2 text-xs font-semibold transition-transform hover:-translate-y-0.5"
-          style={{ border: `1.5px solid ${ink.line}`, color: ink[700] }}
-        >
-          下载
-        </a>
+        {!d.hideDownload && (
+          <a
+            href={d.downloadFile ?? d.file}
+            download
+            className="inline-block whitespace-nowrap rounded-full px-4 py-2 text-xs font-semibold transition-transform hover:-translate-y-0.5"
+            style={{ border: `1.5px solid ${ink.line}`, color: ink[700] }}
+          >
+            下载
+          </a>
+        )}
       </div>
     </article>
   );
@@ -187,9 +230,7 @@ function TestAccessFlow() {
           <li>
             将公钥通过邮件发送至
             {" "}
-            <a className="font-semibold underline underline-offset-2" href="mailto:yanhong.guo@ximalaya.com" style={{ color: ACCENT.deep }}>
-              yanhong.guo@ximalaya.com
-            </a>
+            <span className="font-semibold" style={{ color: ACCENT.deep }}>【对接商务邮箱】</span>
             。
           </li>
           <li>
@@ -207,14 +248,15 @@ function TestAccessFlow() {
   );
 }
 
-type DocsSectionSpan = "third" | "half" | "full";
-
 function DocsSection({ section, span }: { section: DocSection; span: DocsSectionSpan }) {
   const spanClass = {
     third: "min-[900px]:col-span-2",
     half: "min-[900px]:col-span-3",
     full: "min-[900px]:col-span-6",
   }[span];
+  const docsGridClass = span === "full"
+    ? section.docs.length === 3 ? "min-[900px]:grid-cols-3" : "min-[900px]:grid-cols-2"
+    : "";
 
   return (
     <section
@@ -229,7 +271,7 @@ function DocsSection({ section, span }: { section: DocSection; span: DocsSection
           {section.desc}
         </p>
       </div>
-      <div className={`mt-4 grid gap-3 ${span === "full" ? "min-[900px]:grid-cols-2" : ""}`}>
+      <div className={`mt-4 grid gap-3 ${docsGridClass}`}>
         {section.docs.map((doc) => <DocCard key={doc.file} doc={doc} />)}
       </div>
     </section>
@@ -251,11 +293,11 @@ export default function DocsPage() {
 
       <ProtectedDocs>
         <div className="grid gap-3.5 min-[900px]:grid-cols-6">
-          {DOC_SECTIONS.map((section, index) => (
+          {DOC_SECTIONS.map((section) => (
             <DocsSection
               key={section.title}
               section={section}
-              span={index < 3 ? "third" : index < 5 ? "half" : "full"}
+              span={section.span}
             />
           ))}
         </div>
