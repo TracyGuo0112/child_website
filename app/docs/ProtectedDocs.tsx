@@ -18,6 +18,7 @@ const ALLOWED_APP_KEY_HASHES = new Set([
   1886071323,
   3734411419,
   3768865631,
+  3226970653,
 ]);
 const ACCESS_SESSION_KEY = "xmly-docs-app-key-access";
 const APP_KEY_PATTERN = /^[a-f0-9]{32}$/;
